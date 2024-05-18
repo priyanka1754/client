@@ -26,9 +26,9 @@
     <!-- Login and Cart -->
     <div class="flex items-center space-x-4 pr-4">
       @if (appService.user()) { @if (appService.isMobileScreen()) {
-        <div>
-          <app-mobile-user-menu></app-mobile-user-menu>
-        </div>
+      <div>
+        <app-mobile-user-menu></app-mobile-user-menu>
+      </div>
       } @else {
       <div class="ml-auto">
         <app-dropdown-menu></app-dropdown-menu>
@@ -37,7 +37,7 @@
       <div>
         <a [routerLink]="['login']" class="hover:text-gray-300">Login</a>
       </div>
-      }
+      } @if(!appService.isMobileScreen()) {
       <div>
         <a [routerLink]="['cart']" class="hover:text-gray-300"
           ><p-button
@@ -48,6 +48,7 @@
           ></p-button>
         </a>
       </div>
+      }
     </div>
   </div>
 </header>

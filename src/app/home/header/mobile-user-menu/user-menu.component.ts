@@ -25,6 +25,7 @@ export class MobileUserMenuComponent {
   }
 
   public logout() {
+    this.showDrawer = false;
     this.appService.user.update(() => null);
     localStorage.removeItem('scUser');
     this.router.navigate(['']);

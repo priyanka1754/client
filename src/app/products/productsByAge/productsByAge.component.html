@@ -1,3 +1,8 @@
+@if (isLoading) {
+<div class="flex justify-center items-center h-screen">
+  <app-loader></app-loader>
+</div>
+} @else {
 <div>
   <div class="text-3xl font-semibold text-center">
     @if (ageType === 'preschool') { 0 to 3 years } @else if (ageType ===
@@ -10,3 +15,4 @@
   <div class="p-3">No products found</div>
   }
 </div>
+}

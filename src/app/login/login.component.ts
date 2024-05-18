@@ -1,26 +1,27 @@
-import { Component } from "@angular/core";
-import { UserService } from "./user.service";
-import { Router, RouterModule } from "@angular/router";
-import { AppService } from "../app.service";
-import { ButtonModule } from "primeng/button";
-import { FormsModule } from "@angular/forms";
-import { AppHelper } from "../utils/app.helper";
-import { OrderService } from "../products/order.service";
+import { Component } from '@angular/core';
+import { UserService } from './user.service';
+import { Router, RouterModule } from '@angular/router';
+import { AppService } from '../app.service';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
+import { AppHelper } from '../utils/app.helper';
+import { OrderService } from '../products/order.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: 'login.component.html',
-  imports: [ButtonModule, RouterModule, FormsModule]
+  imports: [ButtonModule, RouterModule, FormsModule],
 })
 export class LoginComponent {
-
   public mobile!: number;
   public password: string = '';
   public isValidPassword: boolean = false;
   public isValidPhoneNumber: boolean = false;
 
-  constructor(public userService: UserService, private router: Router,
+  constructor(
+    public userService: UserService,
+    private router: Router,
     private appService: AppService,
     private orderService: OrderService
   ) {
@@ -33,8 +34,8 @@ export class LoginComponent {
     this.password = 'Sri@276286';
     const user = {
       username: this.mobile,
-      password: this.password
-    }
+      password: this.password,
+    };
     this.userService.login(user).subscribe((res) => {
       // set user
       this.setUser(res);
@@ -59,15 +60,14 @@ export class LoginComponent {
 
   private setUser(res: any) {
     this.appService.user.update(() => res);
-    localStorage.setItem('scUser', JSON.stringify(res));
+    AppHelper.saveToLocalStorage('scUser', res);
   }
 
   private localCart() {
     const user = this.appService.user();
     if (user) {
-      console.log('dfg => ', user);
       const cartItems = AppHelper.getFromLocalStorage('scCart');
-      console.log(cartItems)
+      console.log(cartItems);
       if (cartItems && cartItems.length) {
         cartItems.forEach((item: any, index: number) => {
           item.CustomerId = user.CustomerId;

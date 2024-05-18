@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { ButtonModule } from "primeng/button";
-import { UserService } from "../../login/user.service";
-import { AppHelper } from "../../utils/app.helper";
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { UserService } from '../../login/user.service';
+import { AppHelper } from '../../utils/app.helper';
 
 @Component({
   selector: 'app-account',
   standalone: true,
   templateUrl: 'account.component.html',
-  imports: [FormsModule, ButtonModule]
+  imports: [FormsModule, ButtonModule],
 })
 export class AccountComponent {
   public user: any;
@@ -16,7 +16,7 @@ export class AccountComponent {
   public editMapsLocation: boolean = false;
   public isValidLink: boolean = false;
   constructor(private userService: UserService) {
-    this.user = JSON.parse(localStorage.getItem('scUser') as string);
+    this.user = AppHelper.getFromLocalStorage('scUser');
   }
 
   public validateLink() {
@@ -30,4 +30,3 @@ export class AccountComponent {
     });
   }
 }
-

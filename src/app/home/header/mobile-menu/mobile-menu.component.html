@@ -1,33 +1,42 @@
 <nav
-  class="bg-white fixed bottom-0 w-full flex justify-around items-center p-2 md:hidden"
+  class="bg-gray-300 fixed bottom-0 w-full flex justify-around items-center p-2 md:hidden"
 >
   <a
     [routerLink]="['/']"
     class="flex flex-col items-center text-gray-800 hover:text-black"
   >
-    <i class="pi pi-home"></i>
+    <i class="fa-solid fa-house"></i>
     <span class="text-xs">Home</span>
+  </a>
+  <a
+    (click)="openOrders()"
+    class="flex flex-col items-center text-gray-800 hover:text-black"
+  >
+    <i class="fa-solid fa-receipt"></i>
+    <span class="text-xs">Orders</span>
   </a>
   <a
     (click)="openProductMenu()"
     class="flex flex-col items-center text-gray-800 hover:text-black"
   >
-    <i class="pi pi-shop"></i>
+    <i class="fa-solid fa-shop"></i>
     <span class="text-xs">Products</span>
-  </a>
-  <a
-    [routerLink]="['/howitworks']"
-    class="flex flex-col items-center text-gray-800 hover:text-black"
-  >
-    <i class="pi pi-question"></i>
-    <span class="text-xs">How it works?</span>
   </a>
   <a
     [routerLink]="['/contact']"
     class="flex flex-col items-center text-gray-800 hover:text-black"
   >
-    <i class="pi pi-phone"></i>
+    <i class="fa-solid fa-phone"></i>
     <span class="text-xs">Contact</span>
+  </a>
+  <a
+    [routerLink]="['/cart']"
+    class="flex flex-col items-center text-gray-800 hover:text-black"
+  >
+    <span class="fa-solid fa-cart-shopping">
+      {{ appService.cartCount() ? appService.cartCount().toString() : "" }}
+    </span>
+    <span class="text-xs">Cart</span>
   </a>
 </nav>
 

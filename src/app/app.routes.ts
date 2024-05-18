@@ -12,6 +12,7 @@ import { ProductDetailsComponent } from './products/product/product-details/prod
 import { SignupComponent } from './login/signup/signup.component';
 import { ProductsByCategoryComponent } from './products/productsByCategory/productsByCategory.component';
 import { ProductsBySearchComponent } from './home/secondary-header/searchbar/productsBySearch/productsBySearch.component';
+import { WishlistComponent } from './profile/wishlist/wishlist.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -20,14 +21,20 @@ export const routes: Routes = [
   // { path: 'products', component: ProductsComponent },
   { path: 'productDetails/:Code', component: ProductDetailsComponent },
   { path: 'productsByAge/:agetype', component: ProductsByAgeComponent },
-  { path: 'productsByCategory/:category', component: ProductsByCategoryComponent },
+  {
+    path: 'productsByCategory/:category',
+    component: ProductsByCategoryComponent,
+  },
   { path: 'productsBySearch/:searchKey', component: ProductsBySearchComponent },
   { path: 'howitworks', component: HowItWorksComponent },
   { path: 'cart', component: CartComponent },
   {
-    path: 'profile', component: ProfileComponent, children: [
+    path: 'profile',
+    component: ProfileComponent,
+    children: [
       { path: 'account', component: AccountComponent },
-      { path: 'orders', component: OrdersComponent }
-    ]
-  }
+      { path: 'orders', component: OrdersComponent },
+      { path: 'wishlist', component: WishlistComponent },
+    ],
+  },
 ];

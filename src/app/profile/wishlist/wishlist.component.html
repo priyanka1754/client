@@ -1,0 +1,45 @@
+<h1 class="text-2xl font-bold mb-4">My Wishlist</h1>
+@if (wishlistItems.length > 0) {
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+  @for (product of wishlistItems; track $index) {
+  <div class="bg-white border rounded-lg p-4" style="cursor: pointer">
+    <div class="h-3/5 overflow-hidden" (click)="loadProductDetails(product)">
+      <img
+        [src]="
+          'https://toyimages.s3.ap-southeast-2.amazonaws.com/toys/' +
+          product.Code +
+          '/' +
+          '1.jpg'
+        "
+        alt="Item Image"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="h-2/5 border-t">
+      <div class="flex mt-1 h-3/5">
+        <p class="text-md font-semibold text-center">
+          {{ product.Name }}
+        </p>
+        <i
+          class="fa-solid fa-trash"
+          (click)="removeFromWishlist(product.wishlistId)"
+        ></i>
+      </div>
+    </div>
+  </div>
+
+  }
+</div>
+} @else {
+<div class="p-3 items-center">
+  <div class="p-2">No wishlisted toys</div>
+  <div class="p-2">
+    <span
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
+      [routerLink]="['/']"
+    >
+      Home
+    </span>
+  </div>
+</div>
+}

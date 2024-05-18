@@ -13,7 +13,7 @@ export class UserService {
   }
 
   public getUserById(id: string) {
-    const url = `/api/users/${id}`;
+    const url = `/api/users/get/${id}`;
     return this.http.get(url);
   }
 

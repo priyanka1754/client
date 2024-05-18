@@ -5,33 +5,50 @@ import { DataViewModule } from 'primeng/dataview';
 import { ProductsService } from '../products.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsComponent } from '../products.component';
+import { AppLoaderComponent } from '../../loader/loader.component';
 
 @Component({
-    selector: 'app-products-by-age',
-    standalone: true,
-    imports: [CommonModule, ButtonModule, DataViewModule, ProductsComponent],
-    templateUrl: './productsByAge.component.html'
+  selector: 'app-products-by-age',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ButtonModule,
+    DataViewModule,
+    ProductsComponent,
+    AppLoaderComponent,
+  ],
+  templateUrl: './productsByAge.component.html',
 })
 export class ProductsByAgeComponent implements OnInit {
-    @ViewChild('content') content!: ElementRef;
+  @ViewChild('content') content!: ElementRef;
 
-    public products: any = [];
+  public products: any = [];
 
-    public ageType: string = '';
+  public ageType: string = '';
 
-    constructor(private productsService: ProductsService, private route: ActivatedRoute) {
-    }
+  public isLoading = true;
 
-    public ngOnInit(): void {
-        this.route.params.subscribe(params => {
-            this.ageType = params['agetype'];
-            this.getProductsByAge();
-        });
-    }
+  constructor(
+    private productsService: ProductsService,
+    private route: ActivatedRoute
+  ) {}
 
-    private getProductsByAge(): void {
-        this.productsService.getProductsByAge(this.ageType).subscribe((resp: any) => {
-            this.products = resp;
-        });
-    }
+  public ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.ageType = params['agetype'];
+      this.getProductsByAge();
+    });
+  }
+
+  private getProductsByAge(): void {
+    this.productsService.getProductsByAge(this.ageType).subscribe(
+      (resp: any) => {
+        this.products = resp;
+        this.isLoading = false;
+      },
+      () => {
+        this.isLoading = true;
+      }
+    );
+  }
 }
