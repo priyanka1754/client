@@ -1,0 +1,10 @@
+<div>
+  <div class="text-lg font-semibold text-center">
+    SearchResults: {{ searchkey }}
+  </div>
+  @if(products.length) {
+  <app-products [products]="products"></app-products>
+  } @else {
+  <div class="p-3 text-center">No products found</div>
+  }
+</div>

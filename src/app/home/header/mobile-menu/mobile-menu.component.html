@@ -1,0 +1,40 @@
+<nav
+  class="bg-white fixed bottom-0 w-full flex justify-around items-center p-2 md:hidden"
+>
+  <a
+    [routerLink]="['/']"
+    class="flex flex-col items-center text-gray-800 hover:text-black"
+  >
+    <i class="pi pi-home"></i>
+    <span class="text-xs">Home</span>
+  </a>
+  <a
+    (click)="openProductMenu()"
+    class="flex flex-col items-center text-gray-800 hover:text-black"
+  >
+    <i class="pi pi-shop"></i>
+    <span class="text-xs">Products</span>
+  </a>
+  <a
+    [routerLink]="['/howitworks']"
+    class="flex flex-col items-center text-gray-800 hover:text-black"
+  >
+    <i class="pi pi-question"></i>
+    <span class="text-xs">How it works?</span>
+  </a>
+  <a
+    [routerLink]="['/contact']"
+    class="flex flex-col items-center text-gray-800 hover:text-black"
+  >
+    <i class="pi pi-phone"></i>
+    <span class="text-xs">Contact</span>
+  </a>
+</nav>
+
+<div class="fixed inset-0 flex z-50" [class.hidden]="!showDrawer">
+  <div class="fixed inset-0 bg-white">
+    <app-mobile-product-menu
+      (closeDrawerEvent)="showDrawer = !showDrawer"
+    ></app-mobile-product-menu>
+  </div>
+</div>

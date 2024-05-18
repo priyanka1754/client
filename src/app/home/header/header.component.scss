@@ -1,0 +1,14 @@
+.mobile-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+@media (min-width: 768px) {
+  .mobile-sticky {
+    display: none; /* Hide on screens larger than 768px */
+  }
+}
+

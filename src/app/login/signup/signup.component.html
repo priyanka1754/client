@@ -1,0 +1,144 @@
+@if(userAdded) {
+<div
+  class="fixed bottom-0 left-0 right-0 bg-green-500 text-white px-4 py-2 flex justify-between items-center"
+>
+  <p>User Added Successfully. Redirecting to login...</p>
+</div>
+} @if(errorMessage) {
+<div class="flex justify-center">
+  <div class="text-red-500">
+    {{ errorMessage }}
+  </div>
+</div>
+}
+<div class="flex justify-center">
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="flex">
+      <div class="mb-4 px-2">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+          Name
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          type="text"
+          [(ngModel)]="name"
+        />
+      </div>
+      <div class="mb-4">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="phoneNumber"
+        >
+          Phone Number
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="phoneNumber"
+          type="number"
+          [(ngModel)]="phone"
+          (ngModelChange)="validatePhoneNumber()"
+        />
+      </div>
+    </div>
+    <div class="flex">
+      <div class="mb-4 px-2">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="city">
+          City
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="city"
+          type="text"
+          [(ngModel)]="city"
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="area">
+          Pincode
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="area"
+          type="number"
+          [(ngModel)]="pincode"
+          (ngModelChange)="validatePincode()"
+        />
+      </div>
+    </div>
+    <div class="flex">
+      <div class="mb-4 px-2">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="password"
+        >
+          Password
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="password"
+          type="password"
+          [(ngModel)]="password"
+          (ngModelChange)="validatePassword()"
+        />
+      </div>
+      <div class="mb-4">
+        <label
+          class="block text-gray-700 text-sm font-bold mb-2"
+          for="confirmPassword"
+        >
+          ConfirmPassword
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="confirmPassword"
+          type="password"
+          [(ngModel)]="confirmPassword"
+          (ngModelChange)="passwordsMatch()"
+        />
+      </div>
+    </div>
+    <div class="px-2">
+      @if(pincode && pincode.toString().length > 3 && !isValidPincode) {
+      <h2>Enter a valid pincode</h2>
+      } @if(phone && phone.toString().length > 3 && !isValidPhoneNumber) {
+      <h2>Enter a valid phone number</h2>
+      } @if(password && !isValidPassword) {
+      <div>
+        <h2>Password should be min 8 characters</h2>
+        <h2>Password should have uppercase, lowercase and numbers</h2>
+        <h2>
+          Password can only have these special characters
+          {{ specialCharacters }}
+        </h2>
+      </div>
+      } @if(passwordMatch) {
+      <div class="text-success">Passwords match!</div>
+      } @else() { @if (password && confirmPassword) {
+      <div class="text-danger">Passwords do not match!</div>
+      } }
+    </div>
+    <div class="flex justify-center">
+      <p-button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded border p-2"
+        (onClick)="signup()"
+        [disabled]="!passwordMatch"
+      >
+        Signup
+      </p-button>
+    </div>
+    <div class="p-4">
+      <div class="flex ml-auto">
+        <div>Already have an account?</div>
+        <div class="px-2">
+          <a
+            class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+            [routerLink]="['/login']"
+          >
+            Login
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="center pt-1">
+  <p-carousel
+    [value]="banners"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [autoplayInterval]="5000"
+    [showIndicators]="true"
+    [indicatorStyleClass]="'cc'"
+    [showNavigators]="true"
+  >
+    <ng-template let-image pTemplate="item">
+      <img [src]="image" alt="Image" />
+    </ng-template>
+  </p-carousel>
+</div>
+<div>
+  <div class="text-3xl font-semibold text-center text-yellow-500 py-1">
+    Rent By Age
+  </div>
+  <app-age-section></app-age-section>
+  <div class="text-3xl font-semibold text-center text-yellow-500 py-1">
+    Rent By Category
+  </div>
+  <app-category-section></app-category-section>
+  <div class="text-3xl font-semibold text-center text-yellow-500 py-1">
+    Best Rented
+  </div>
+  <app-best-rented></app-best-rented>
+  <div class="text-3xl font-semibold text-center text-yellow-500 py-1">
+    New Arrival
+  </div>
+  <app-new-arrival></app-new-arrival>
+</div>

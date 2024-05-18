@@ -1,0 +1,53 @@
+<header #header class="bg-red-400 text-white fixed w-full top-0 z-10">
+  <div class="container mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center cursor-pointer">
+      <img
+        src="assets/skipcry_logo.png"
+        alt="Logo"
+        class="h-16"
+        [routerLink]="['/']"
+      />
+    </div>
+    <div>
+      <div class="px-4">
+        <!-- Menu -->
+        @if (!appService.isMobileScreen()) {
+        <div>
+          <app-product-menu></app-product-menu>
+        </div>
+        } @else {
+        <div [class.mobile-sticky]="appService.isMobileScreen()">
+          <app-mobile-menu></app-mobile-menu>
+        </div>
+        }
+      </div>
+    </div>
+    <!-- Login and Cart -->
+    <div class="flex items-center space-x-4 pr-4">
+      @if (appService.user()) { @if (appService.isMobileScreen()) {
+        <div>
+          <app-mobile-user-menu></app-mobile-user-menu>
+        </div>
+      } @else {
+      <div class="ml-auto">
+        <app-dropdown-menu></app-dropdown-menu>
+      </div>
+      } } @else {
+      <div>
+        <a [routerLink]="['login']" class="hover:text-gray-300">Login</a>
+      </div>
+      }
+      <div>
+        <a [routerLink]="['cart']" class="hover:text-gray-300"
+          ><p-button
+            icon="pi pi-shopping-cart"
+            [badge]="
+              appService.cartCount() ? appService.cartCount().toString() : ''
+            "
+          ></p-button>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,121 @@
+<div class="justify-center overflow-scroll h-full">
+  <div class="flex">
+    <div class="ml-auto">
+      <button class="text-black" (click)="closeDrawer()">Close</button>
+    </div>
+  </div>
+  <div>
+    <div class="py-1" role="none">
+      <div
+        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+      >
+        <div>Rent By Age</div>
+      </div>
+      <a
+        [routerLink]="['/productsByAge/preschool']"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >0-3 Years</a
+      >
+      <a
+        [routerLink]="['/productsByAge/playschool']"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >3-6 Years</a
+      >
+      <a
+        [routerLink]="['/productsByAge/primaryschool']"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >6+ Years</a
+      >
+    </div>
+    <div class="py-1" role="none">
+      <div
+        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+      >
+        <div>Rent By Category</div>
+      </div>
+      @for (category of firstCategories; track $index) {
+      <a
+        [routerLink]="['/productsByCategory/' + category.code]"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >{{ category.name }}</a
+      >
+      }
+    </div>
+  </div>
+  <div>
+    <div class="py-1" role="none">
+      <!-- <div
+        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+      >
+        <div>Rent By Category</div>
+      </div> -->
+      @for (category of secondCategories; track $index) {
+      <a
+        [routerLink]="['/productsByCategory/' + category.code]"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >{{ category.name }}</a
+      >
+      }
+    </div>
+    <div class="py-1" role="none">
+      <!-- <div
+        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+      >
+        <div>Rent By Category</div>
+      </div> -->
+      @for (category of thirdCategories; track $index) {
+      <a
+        [routerLink]="['/productsByCategory/' + category.code]"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >{{ category.name }}</a
+      >
+      }
+    </div>
+  </div>
+  <div>
+    <div class="py-1" role="none">
+      <!-- <div
+        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+      >
+        <div>Rent By Category</div>
+      </div> -->
+      @for (category of fourthCategories; track $index) {
+      <a
+        [routerLink]="['/productsByCategory/' + category.code]"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >{{ category.name }}</a
+      >
+      }
+    </div>
+    <div class="py-1" role="none">
+      <!-- <div
+        class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+      >
+        <div>Rent By Category</div>
+      </div> -->
+      @for (category of fifthCategories; track $index) {
+      <a
+        [routerLink]="['/productsByCategory/' + category.code]"
+        (click)="closeDrawer()"
+        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+        role="menuitem"
+        >{{ category.name }}</a
+      >
+      }
+    </div>
+  </div>
+</div>

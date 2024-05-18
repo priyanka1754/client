@@ -1,0 +1,190 @@
+@if (orderPlaced) {
+<div class="flex justify-between">
+  <div>
+    Thankyou for placing order. Your order will be delivered on or before:
+    {{ availableSunday }}
+  </div>
+  <div>
+    <p-button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
+      (onClick)="gotoOrders()"
+    >
+      Go to orders
+    </p-button>
+  </div>
+</div>
+} @else() { @if (cartItems.length > 0) {
+<div>
+  <div class="text-3xl font-semibold text-center">Cart</div>
+  <!-- <div>
+    <div class="text-lg font-medium">
+      #1 Note: The toys you are renting are for one month. One month will be
+      calculated from the day toys are delivered. Beyond one month, if you are
+      holding toys and doesn't return, extra rent will be calculated.
+    </div>
+    <div class="text-lg font-medium">
+      #2 Note: Delivery date & time will be communicated to you by our team. We
+      usually deliver only one day in a week. Our regular delivery day is
+      Saturday/Sunday/Public holiday.
+    </div>
+    <div class="text-lg font-medium">
+      #3 Note: Store pickup and drop is available. For parents who do store
+      pickup and drop, they can exchange toys once in the middle of the month.
+    </div>
+    <div class="text-lg font-medium">
+      #4 Note: Every 100 spent, you will get a coin. Every coin used will give
+      5rs discount.
+    </div>
+    <div class="text-lg font-medium">#5 Note: Referral Discount: 300rs.</div>
+  </div> -->
+  <div>
+    <div class="md:flex">
+      <div class="xl:w-9/12 lg:w-9/12 w-full bg-white mb-2">
+        <div class="grid grid-nogutter">
+          @for (cartItem of cartItems; track $index) {
+          <div class="col-12" (click)="loadProduct(cartItem.Product)">
+            <div
+              class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+            >
+              <div class="w-3/6 md:w-1/6">
+                <img
+                  class="shadow-2 block xl:block mx-auto border-round"
+                  [src]="
+                    'https://toyimages.s3.ap-southeast-2.amazonaws.com/' +
+                    cartItem.Product.Code +
+                    '.jpg'
+                  "
+                  [alt]="cartItem.Product.Name"
+                />
+              </div>
+              <div class="w-3/6 md:w-3/6 flex justify-between">
+                <div>
+                  <div class="text-xl font-bold text-900">
+                    {{ cartItem.Product.Name }}
+                  </div>
+                  <div>
+                    <div>Renting for {{ cartItem.rentedDays }}</div>
+                    <div>
+                      Return: @if (cartItem.rentedDays === '15 days') {
+                      {{ dateFor15Days }}
+                      } @else() {
+                      {{ dateFor30Days }}
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="text-xl font-semibold flex justify-end">
+                    &#8377;{{ cartItem.rentedAmount }}
+                  </div>
+                  <div class="md:flex md:justify-end">
+                    <p-button
+                      icon="pi pi-trash py-2"
+                      (onClick)="removeFromCart(cartItem)"
+                    ></p-button>
+                    <p-button icon="pi pi-heart"></p-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-2/6 flex justify-between">
+              <div>
+                @if (cartItem.Product.Class === 'C') { @if(!classCDelivery) {
+                <span class="text-2xl font-semibold"
+                  >Sorry. Beyond 15km, Class C products cannot be
+                  deliverable</span
+                >
+                } @else { * Delivery & return pickup charges applicable } }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      <div class="xl:w-3/12 lg:w-3/12 md:w-full sm:w-full p-4 bg-white">
+        <div>
+          <div class="flex justify-between">
+            <div>Total Rent for toys:</div>
+            <div>&#8377;{{ cartTotal | number : "1.2-2" }}</div>
+          </div>
+          @if (distance) {
+          <div class="flex justify-between">
+            <div>Delivery & Return pickup charges:</div>
+            <div>
+              @if (deliveryTotal) { &#8377;{{
+                deliveryTotal | number : "1.2-2"
+              }}
+              for {{ distance }} km (your distance from our store) } @else() {
+              Free }
+            </div>
+          </div>
+          } @if (appService.user()) {
+          <div class="flex justify-between">
+            <div>Coins Discount:</div>
+            <div>- &#8377;{{ totalByCoins }}</div>
+          </div>
+          <div class="flex justify-between">
+            <div>Referral Discount:</div>
+            <div>- &#8377;300</div>
+          </div>
+          <hr class="p-2" />
+          <div class="flex justify-between">
+            <div class="font-semibold">Total:</div>
+            <div class="font-semibold">
+              &#8377;{{ orderTotal | number : "1.2-2" }}
+            </div>
+          </div>
+          }
+        </div>
+        <div class="flex justify-center p-2">
+          @if (appService.user()) {
+          <p-button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
+            (onClick)="placeOrder(cartItems)"
+          >
+            Place Order
+          </p-button>
+          } @else {
+          <div class="flex">
+            <div>
+              <label for="pincode">
+                Enter pincode to know delivery charges:
+              </label>
+              <input
+                type="text"
+                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
+                placeholder="Enter pincode"
+                [(ngModel)]="pincode"
+                (ngModelChange)="calculateOnPincode()"
+              />
+            </div>
+            <div
+              class="inline-block text-green-500 font-bold p-1 cursor-pointer"
+              [routerLink]="['/login']"
+            >
+              Login to place order
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+} @else() {
+<div class="flex justify-center items-center h-full">
+  <div class="p-4">
+    <p-card>
+      <div class="p-2">Cart is empty</div>
+      <div class="p-2">
+        <p-button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
+          (onClick)="gotoHome()"
+        >
+          Rent Now
+        </p-button>
+      </div>
+    </p-card>
+  </div>
+</div>
+} }

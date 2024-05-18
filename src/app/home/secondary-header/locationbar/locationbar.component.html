@@ -1,0 +1,74 @@
+<div class="flex items-center p-1 bg-slate-50">
+  @if (!pincode) {
+  <div (click)="showLocationDrawer = true">Enter location</div>
+  } @else() {
+  <div>
+    <span class="pi pi-map-marker"></span>
+    <span class="px-1">Deliver to </span>
+    <span>
+      @if (city) {
+      {{ city }}, } {{ pincode }}</span
+    >
+    <span class="px-1 pi pi-angle-down"></span>
+  </div>
+  }
+</div>
+<!--Location Drawer-->
+<div>
+  <div class="fixed inset-0 flex z-50" [class.hidden]="!showLocationDrawer">
+    <div class="fixed inset-0 bg-white">
+      <div class="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
+        <h2 class="text-xl font-semibold mb-4">
+          Enter pincode and select store
+        </h2>
+        @if (distance) {
+        <div class="mb-4">
+          Given pincode is {{ distance }} from chosen/nearby store
+        </div>
+        }
+        <div class="mb-4">
+          <label for="pincode" class="block text-gray-700 font-bold"
+            >Pincode:</label
+          >
+          <input
+            type="text"
+            id="pincode"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="pincode"
+            (ngModelChange)="validatePincode()"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="city" class="block text-gray-700 font-bold"
+            >Cities we are currently present:</label
+          >
+          <input
+            type="text"
+            id="city"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="city"
+            [disabled]="true"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="selectOption" class="block text-gray-700 font-bold mb-2"
+            >Select nearby store for you:</label
+          >
+          <select
+            id="selectOption"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            [(ngModel)]="selectedStore"
+            [disabled]="true"
+          >
+            @for (store of stores; track $index) {
+            <option [value]="store.value">
+              {{ store.label }}
+            </option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

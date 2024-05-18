@@ -1,0 +1,82 @@
+<div class="bg-white rounded-lg shadow-md p-4">
+  <div class="flex">
+    <div>
+      <span class="text-red-500 pr-2">{{ user.CustomerId }}</span>
+      <span class="text-lg font-semibold mb-2">{{ user.Name }}</span>
+    </div>
+    <div class="flex ml-auto">
+      <span class="pr-2">{{ user.Mobile }}</span>
+      <p class="text-green-500 pr-2">{{ user.Status }}</p>
+    </div>
+  </div>
+  <div class="flex">
+    @if (user.DepositAmount) {
+    <div class="pr-2">&#8377;{{ user.DepositAmount }}</div>
+    } @if (user.KmDistance) {
+    <div class="pr-2">{{ user.KmDistance }}km</div>
+    }
+    <div class="pr-2">{{ user.City }} - {{ user.Pincode }}</div>
+    @if(user.RegisteredDay) {
+    <div class="ml-auto">Order Day: {{ user.RegisteredDay }}</div>
+    }
+  </div>
+  <div class="flex">
+    @if (user.RewardsCount) {
+    <div class="ml-auto">{{ user.RewardsCount }} coins</div>
+    }
+  </div>
+  <div class="flex justify-between">
+    @if (user.ValidDate) {
+    <div class="pr-4">Valid: {{ user.ValidDate }}</div>
+    } @if(user.Maps_Link) {
+    <div class="text-blue-300 underline">
+      <a target="_blank" href="{{ user.Maps_Link }}">Maps Location</a>
+    </div>
+    }
+  </div>
+  <div class="flex justify-center">
+    <div>
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
+        Address
+      </label>
+      <textarea
+        class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="address"
+        type="text"
+        [(ngModel)]="user.address"
+        [disabled]="!editAddress"
+      ></textarea>
+    </div>
+    <div class="mb-4 px-2">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="location">
+        Googlemaps Location
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="location"
+        type="text"
+        [(ngModel)]="user.Maps_Link"
+        [disabled]="!editMapsLocation"
+        (ngModelChange)="validateLink()"
+      />
+    </div>
+  </div>
+  <div class="flex justify-center">
+    @if ((!user.address && !editAddress) || (!user.Maps_Link &&
+    !editMapsLocation)) {
+    <p-button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+      (onClick)="editAddress = true; editMapsLocation = true"
+      >Edit</p-button
+    >
+    } @else () {
+    <p-button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded p-2"
+      (onClick)="editUser()"
+      [disabled]="!(user.address || user.Maps_Link)"
+      >Save</p-button
+    >
+    }
+  </div>
+  <div>@if (!isValidLink) { Please add a valid google maps link }</div>
+</div>
