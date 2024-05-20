@@ -30,6 +30,8 @@ export class HomeComponent implements AfterViewInit {
   @ViewChild('content', { static: false })
   public bodyElement!: ElementRef;
 
+  public loadHome = false;
+
   constructor(
     private appService: AppService,
     private userService: UserService,

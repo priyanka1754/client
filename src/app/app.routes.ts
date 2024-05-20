@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProductsComponent } from './products/products.component';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { HowItWorksComponent } from './howitworks/howItWorks.component';
 import { ProductsByAgeComponent } from './products/productsByAge/productsByAge.component';
@@ -18,7 +17,6 @@ export const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  // { path: 'products', component: ProductsComponent },
   { path: 'productDetails/:Code', component: ProductDetailsComponent },
   { path: 'productsByAge/:agetype', component: ProductsByAgeComponent },
   {

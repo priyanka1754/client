@@ -4,17 +4,18 @@ import { AppService } from './app.service';
 import { OrderService } from './products/order.service';
 import { AppHelper } from './utils/app.helper';
 import { LocationService } from './location.service';
+import { LandingComponent } from './landing/landing.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [HomeComponent],
+  imports: [HomeComponent, LandingComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
 
-  constructor(public appService: AppService, private location: LocationService) {
+  constructor(public appService: AppService) {
 
   }
 
@@ -22,13 +23,12 @@ export class AppComponent implements OnInit {
     // set user
     this.setUser();
 
-    this.location.getDistanceFromLocation();
-    this.location.getDistanceFromPincode(523001);
+    AppHelper.saveToLocalStorage('scStore', 'CHNPER1');
+    AppHelper.saveToLocalStorage('scOutside', 'false');
   }
 
   private setUser() {
     const user = AppHelper.getFromLocalStorage('scUser');
-    console.log('df => ', user);
     if (user) {
       this.appService.user.update(() => user);
     }
