@@ -92,7 +92,8 @@ export class CartComponent {
 
   public calculateOnPincode() {
     if (this.pincode.length === 6) {
-      this.locationService.getDistanceFromPincode(+this.pincode).subscribe((distance: number) => {
+      this.locationService.getNearestStore(+this.pincode).subscribe((storeRes: any) => {
+        const distance = storeRes.shortestDistance;
         console.log('distance => ', distance);
         this.distance = distance;
         AppHelper.saveToLocalStorage('scDistance', { pincode: +this.pincode, distance: this.distance });

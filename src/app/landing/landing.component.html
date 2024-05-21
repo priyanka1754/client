@@ -6,24 +6,13 @@
     <!-- Logo Section -->
     <img src="assets/skipcry_logo.png" alt="Logo" class="mb-8" />
 
-    <!-- Pincode Input Section -->
-    <div class="w-full mb-4">
-      <label for="pincode" class="sr-only">Enter Pincode</label>
-      <input
-        type="text"
-        id="pincode"
-        placeholder="Enter Pincode"
-        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-        [(ngModel)]="pincode"
-        (ngModelChange)="validatePincode()"
-      />
-    </div>
+    <app-pincode-page (emitOutsideDeliveryZone)="isOutsideDeliveryZone = $event"></app-pincode-page>
 
     <!-- Proceed Button -->
     <button
       class="flex items-center justify-center w-full p-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
       (click)="proceed()"
-      [disabled]="!isValidPincode"
+      [disabled]="!locationService.selectedStore()"
     >
       Proceed
       <svg

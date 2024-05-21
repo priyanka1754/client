@@ -1,0 +1,34 @@
+    <!-- Pincode Input Section -->
+    <div class="w-full mb-4">
+      <label for="pincode" class="sr-only">Enter Pincode</label>
+      <input
+        type="text"
+        id="pincode"
+        placeholder="Enter Pincode"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+        [(ngModel)]="pincode"
+        (ngModelChange)="validatePincode()"
+      />
+    </div>
+    @if (isOutsideDeliveryZone) {
+    <div class="w-full mb-4">
+      <p>You are located more than 25km away from serviceable stores.</p>
+      <p class="p-2">
+        But, CHEERS! You can still rent books, puzzles, games and some toys
+      </p>
+    </div>
+    } @if (nearestStore) {
+    <div class="w-full mb-4">
+      {{distance}}
+      @if (distance) {
+      <p>The nearest store for you is {{ distance }} away.</p>
+      <p>Please find details:</p>
+      } @else {
+      <p>Your order will be served from:</p>
+      }
+      <p>{{ nearestStore.Name }},</p>
+      <p>{{ nearestStore.Address }},</p>
+      <p>Store Contact:</p>
+      <p>{{ nearestStore.ManagerContact }}, {{ nearestStore.OwnerContact }}</p>
+    </div>
+    }

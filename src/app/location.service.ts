@@ -1,14 +1,34 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, map, of } from "rxjs";
+import { Injectable, signal } from "@angular/core";
+import { Observable, catchError, map, of, throwError } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
-  private shopLatitue = 12.953085248206538;
-  private shopLongitude = 80.24212433615371;
+  private shopLatitue = 12.9530852;
+  private shopLongitude = 80.2421243;
+
+  public stores: any = [];
+
+  public selectedStore = signal(null);
+
+  public defaultStore: any;
   constructor(private http: HttpClient) {
+    this.defaultStore = {
+      "_id": "664cb23b3909c312378fe9fc",
+      "StoreId": "CHNPER1",
+      "Name": "Perungudi",
+      "Address": "OMR",
+      "Owner": "ABC",
+      "Manager": "AB",
+      "OwnerContact": 7299933974,
+      "ManagerContact": 7299933976,
+      "MapsLocation": "https://maps.app.goo.gl/CBMZUUVtkGgujoup8",
+      "Latitude": "12.9530852",
+      "Longitude": "80.2421243",
+      "Pincode": "600096"
+    };
   }
 
   public getDistanceFromLocation() {
@@ -23,8 +43,8 @@ export class LocationService {
         console.log("Latitude: ", latitude);
         console.log("Longitude: ", longitude);
         // return { latitude, longitude };
-        const distance = this.getDistanceFromLatLonInKm(latitude, longitude, this.shopLatitue, this.shopLongitude);
-        console.log('distance in km => ', distance);
+        // const distance = this.getDistanceFromLatLonInKm(latitude, longitude, this.shopLatitue, this.shopLongitude);
+        // console.log('distance in km => ', distance);
       }, (error) => {
         // Handle any errors that occur during geolocation
         console.error("Error getting geolocation:", error);
@@ -36,18 +56,23 @@ export class LocationService {
 
   }
 
-  public getDistanceFromPincode(pincode: number): Observable<number> {
+  public getPrimaryStoreFromPincode(pincode: number): Observable<any> {
     return new Observable((observer) => {
       this.getLatLongFromPincode(pincode).subscribe((res: any) => {
-        const { latitude, longitude } = res;
-        const distance = this.getDistanceFromLatLonInKm(latitude, longitude, this.shopLatitue, this.shopLongitude);
+        const distance = this.getDistanceFromLatLonInKm(res, { latitude: this.shopLatitue, longitude: this.shopLongitude });
         console.log('distance in km => ', distance);
-        observer.next(distance);
+        observer.next({ shorterDistance: distance, nearestStore: this.defaultStore, isAway: !!(distance > 25) });
       });
     });
   }
 
-  private getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  private getDistanceFromLatLonInKm(coords1: any, coords2: any): number {
+    console.log(coords2);
+    const lat1 = coords1.latitude;
+    const lat2 = parseFloat(coords2.latitude);
+    const lon1 = coords1.longitude;
+    const lon2 = parseFloat(coords2.longitude);
+    console.log(lat1, lon1, lat2, lon2);
     const earthRadiusKm = 6371; // Radius of the earth in kilometers
     const dLat = this.deg2rad(lat2 - lat1);
     const dLon = this.deg2rad(lon2 - lon1);
@@ -64,7 +89,7 @@ export class LocationService {
     return deg * (Math.PI / 180);
   }
 
-  private getLatLongFromPincode(pincode: number) {
+  public getLatLongFromPincode(pincode: number) {
     const url = `https://nominatim.openstreetmap.org/search?format=json&postalcode=${pincode}&country=India`;
 
     return this.http.get(url).pipe(map((response: any) => {
@@ -77,7 +102,44 @@ export class LocationService {
       } else {
         throw new Error("No location found for the provided pincode.");
       }
-    }));
+    }, catchError(() => {
+      return throwError(() => new Error("No location found for the provided pincode."));
+    })));
+  }
+
+  public getStores() {
+    const url = `/api/stores`;
+    return this.http.get(url);
+  }
+
+  public getNearestStore(pincode: number) {
+    return this.getLatLongFromPincode(pincode).pipe(map((pincodeCoords: any) => {
+      console.log(pincodeCoords);
+      let nearestStore = null;
+      let shortestDistance = Infinity;
+
+      if (this.stores.length > 1) {
+        this.stores.forEach((store: any) => {
+          console.log(store);
+          let storeCoords = { latitude: store.Latitude, longitude: store.Longitude };
+          let distance = this.getDistanceFromLatLonInKm(pincodeCoords, storeCoords);
+          console.log(distance);
+          if (distance < shortestDistance) {
+            shortestDistance = distance;
+            nearestStore = store;
+          }
+        });
+      } else {
+        nearestStore = this.stores[0];
+        let storeCoords = { latitude: nearestStore.Latitude, longitude: nearestStore.Longitude };
+        shortestDistance = this.getDistanceFromLatLonInKm(pincodeCoords, storeCoords);
+      }
+      const store = shortestDistance > 25 ? this.defaultStore : nearestStore;
+      return { nearestStore: store, shortestDistance, isAway: !!(shortestDistance > 25) };
+    }, catchError(() => {
+      console.log('fdghjkl')
+      return throwError(() => new Error('Failed to get given pincode coordinates'));
+    })));
   }
 
 }

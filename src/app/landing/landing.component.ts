@@ -1,42 +1,39 @@
 import { Component } from "@angular/core";
 import { HomeComponent } from "../home/home.component";
-import { AppHelper } from "../utils/app.helper";
 import { LocationService } from "../location.service";
-import { FormsModule } from "@angular/forms";
+import { PincodePageComponent } from "./pincodepage/pincodepage.component";
+import { AppHelper } from "../utils/app.helper";
 
 @Component({
   selector: 'app-landing',
   templateUrl: 'landing.component.html',
   standalone: true,
-  imports: [HomeComponent, FormsModule]
+  imports: [HomeComponent, PincodePageComponent]
 })
 export class LandingComponent {
 
-  public loadHome = false;
+  public loadHome = true;
 
   public pincode = '';
   public isValidPincode = false;
 
   public distance = '';
 
-  constructor(private locationService: LocationService) { }
+  public nearestStore: any;
+
+  public isOutsideDeliveryZone = false;
+
+  constructor(public locationService: LocationService) {
+    this.locationService.getStores().subscribe((stores) => {
+      this.locationService.stores = stores;
+    });
+  }
 
   public proceed(): void {
     this.loadHome = true;
-  }
-
-  public validatePincode() {
-    this.isValidPincode = AppHelper.validatePincode(+this.pincode);
-
-    if (this.isValidPincode) {
-      this.locationService.getDistanceFromPincode(+this.pincode).subscribe((distance: number) => {
-        console.log('distance is => ', distance);
-        if (distance < 1) {
-          this.distance = `${distance * 1000} m`;
-        } else {
-          this.distance = `${distance} km`
-        }
-      });
-    }
+    const store: any = this.locationService.selectedStore();
+    AppHelper.saveToLocalStorage('scStoreDetails', store);
+    AppHelper.saveToLocalStorage('scStore', store.nearestStore.StoreId);
+    AppHelper.saveToLocalStorage('scOutside', String(store.isAway));
   }
 }

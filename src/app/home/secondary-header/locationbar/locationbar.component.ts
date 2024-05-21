@@ -2,43 +2,48 @@ import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { AppHelper } from "../../../utils/app.helper";
 import { LocationService } from "../../../location.service";
+import { PincodePageComponent } from "../../../landing/pincodepage/pincodepage.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-locationbar',
   templateUrl: 'locationbar.component.html',
   standalone: true,
-  imports: [FormsModule]
+  imports: [FormsModule, PincodePageComponent, CommonModule]
 })
 export class LocationBarComponent {
   public location: any;
   public showLocationDrawer = false;
 
-  public pincode: string = '';
   public city: string = 'Chennai';
   public isValidPincode = false;
 
-  public stores = [{ label: 'Perungudi', value: 'perungudi' }];
+  public stores: any = [];
 
-  public selectedStore = 'perungudi';
-
-  public distance = '';
+  public selectedStore = '';
 
   public userLocationDetails: any;
 
-  constructor(private locationService: LocationService) { }
+  public nearestStore: any;
 
-  public validatePincode() {
-    this.isValidPincode = AppHelper.validatePincode(+this.pincode);
+  public isOutsideDeliveryZone = false;
 
-    if (this.isValidPincode) {
-      this.locationService.getDistanceFromPincode(+this.pincode).subscribe((distance: number) => {
-        console.log('distance is => ', distance);
-        if (distance < 1) {
-          this.distance = `${distance * 1000} m`;
-        } else {
-          this.distance = `${distance} km`
-        }
-      });
-    }
+  public changeStorebyPincode = false;
+
+  public changeStoreAsWish = false;
+
+  constructor(public locationService: LocationService) {
+    this.stores = this.locationService.stores;
+    this.nearestStore = AppHelper.getFromLocalStorage('scStoreDetails').nearestStore.Name;
+  }
+
+  public switchStore() { }
+
+  public updatePincode() { }
+
+  public close() {
+    this.showLocationDrawer = false;
+    const store = AppHelper.getFromLocalStorage('scStoreDetails');
+    this.locationService.selectedStore.update(() => store);
   }
 }
