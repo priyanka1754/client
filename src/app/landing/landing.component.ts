@@ -12,7 +12,7 @@ import { AppHelper } from "../utils/app.helper";
 })
 export class LandingComponent {
 
-  public loadHome = true;
+  public loadHome = false;
 
   public pincode = '';
   public isValidPincode = false;
@@ -27,6 +27,10 @@ export class LandingComponent {
     this.locationService.getStores().subscribe((stores) => {
       this.locationService.stores = stores;
     });
+    const store = AppHelper.getFromLocalStorage('scStoreDetails');
+    if (store) {
+      this.loadHome = true;
+    }
   }
 
   public proceed(): void {

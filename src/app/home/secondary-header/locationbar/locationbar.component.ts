@@ -34,7 +34,9 @@ export class LocationBarComponent {
 
   constructor(public locationService: LocationService) {
     this.stores = this.locationService.stores;
-    this.nearestStore = AppHelper.getFromLocalStorage('scStoreDetails').nearestStore.Name;
+    if (AppHelper.getFromLocalStorage('scStoreDetails')) {
+      this.nearestStore = AppHelper.getFromLocalStorage('scStoreDetails').nearestStore.Name;
+    }
   }
 
   public switchStore() { }

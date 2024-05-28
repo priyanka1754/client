@@ -6,6 +6,7 @@ import { ProductsService } from '../products.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsComponent } from '../products.component';
 import { AppLoaderComponent } from '../../loader/loader.component';
+import { AppHelper } from '../../utils/app.helper';
 
 @Component({
   selector: 'app-products-by-age',

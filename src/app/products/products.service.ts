@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { AppHelper } from "../utils/app.helper";
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +16,28 @@ export class ProductsService {
   }
 
   public getProductsByAge(ageType: string): Observable<any> {
-    const url = `/api/products/byAge?ageType=${ageType}`;
+    const storeId = AppHelper.getFromLocalStorage('scStore');
+    const url = `/api/products/byAge?ageType=${ageType}&store=${storeId}`;
     return this.http.get(url);
   }
 
   public getProductsByCategory(category: string): Observable<any> {
-    const url = `/api/products/byCategory/${category}`;
+    const storeId = AppHelper.getFromLocalStorage('scStore');
+    const url = `/api/products/byCategory/${category}?store=${storeId}`;
     return this.http.get(url);
   }
 
   public getProductByCode(code: number): Observable<any> {
-    const url = `/api/products/get/${code}`;
+    const storeId = AppHelper.getFromLocalStorage('scStore');
+    const url = `/api/products/get/${code}/store/${storeId}`;
     return this.http.get(url);
   }
 
   public getProductBySearchKey(key: string): Observable<any> {
+    const storeId = AppHelper.getFromLocalStorage('scStore');
     let params = new HttpParams();
     params = params.set('searchKey', key);
+    params = params.set('store', storeId);
     const url = `/api/products/search?${params.toString()}`;
     return this.http.get(url);
   }
