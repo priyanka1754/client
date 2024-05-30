@@ -9,12 +9,14 @@ import { Router, RouterModule } from "@angular/router";
 import { CardModule } from "primeng/card";
 import { FormsModule } from "@angular/forms";
 import { LocationService } from "../../location.service";
+import { PincodePageComponent } from "../../landing/pincodepage/pincodepage.component";
+import { AppConstants } from "../../app.constants";
 
 @Component({
   selector: 'app-cart',
   standalone: true,
   templateUrl: 'cart.component.html',
-  imports: [CommonModule, DataViewModule, ButtonModule, CardModule, RouterModule, FormsModule]
+  imports: [CommonModule, DataViewModule, ButtonModule, CardModule, RouterModule, FormsModule, PincodePageComponent]
 })
 export class CartComponent {
   // Each coin worth rs1
@@ -22,8 +24,8 @@ export class CartComponent {
   public distance = 0;
   public cartTotal = 0;
   public deliveryTotal = 0;
-  public classCDelivery = true;
-  private classCPresentAlready = false;
+  public classEFDelivery = true;
+  private classEFPresentAlready = false;
   public cartItems: any = [];
   public layout: 'grid' | 'list' = 'list';
   public today = new Date();
@@ -34,18 +36,33 @@ export class CartComponent {
   public orderTotal = 0;
   public totalByCoins = 0;
 
+  public showMinOrderMessage = false;
+
   public pincode = '';
 
+  public tempDistanceFromPincode = 0;
+
+  public depositAmount = 0;
+
+  public isOdz = false;
+
   constructor(private orderService: OrderService, public appService: AppService,
-    private router: Router,
-    private locationService: LocationService
+    private router: Router
   ) {
     this.availableSunday = AppHelper.getNextSundayDate();
     const day15 = new Date(AppHelper.getParticularDateFromTodayByDays(15));
     const day30 = new Date(AppHelper.getParticularDateFromTodayByDays(30));
     this.dateFor15Days = AppHelper.getFormattedDate(day15);
     this.dateFor30Days = AppHelper.getFormattedDate(day30);
-    this.getCart();
+    const distance = AppHelper.getFromLocalStorage('scDistance');
+    this.isOdz = AppHelper.getFromLocalStorage('scOutside');
+    if (distance) {
+      this.distance = distance;
+      this.getCart();
+    }
+    if (this.appService.user()) {
+      this.depositAmount = this.appService.user().DepositAmount;
+    }
   }
 
   public placeOrder(cartItems: any): void {
@@ -77,9 +94,16 @@ export class CartComponent {
   }
 
   public removeFromCart(cartItem: any): void {
-    this.orderService.removeFromCart(cartItem._id).subscribe(() => {
+    if (this.appService.user()) {
+      this.orderService.removeFromCart(cartItem._id).subscribe(() => {
+        this.getCart();
+      });
+    } else {
+      const cartItems = AppHelper.getFromLocalStorage('scCart');
+      const updatedCart = cartItems.filter((item: any) => item._id !== cartItem._id);
+      AppHelper.saveToLocalStorage('scCart', updatedCart);
       this.getCart();
-    });
+    }
   }
 
   public gotoHome(): void {
@@ -90,19 +114,7 @@ export class CartComponent {
     this.router.navigate(['productDetails', product.Code]);
   }
 
-  public calculateOnPincode() {
-    if (this.pincode.length === 6) {
-      this.locationService.getNearestStore(+this.pincode).subscribe((storeRes: any) => {
-        const distance = storeRes.shortestDistance;
-        console.log('distance => ', distance);
-        this.distance = distance;
-        AppHelper.saveToLocalStorage('scDistance', { pincode: +this.pincode, distance: this.distance });
-        this.calculateDeliveryCharges();
-      });
-    }
-  }
-
-  private getCart(): void {
+  public getCart(fromManualPincode?: boolean): void {
     if (this.appService.user()) {
       this.cartTotal = 0;
       this.orderTotal = 0;
@@ -118,9 +130,15 @@ export class CartComponent {
         }
       });
     } else {
+      // If pincode entered in cart page
+      if (fromManualPincode) {
+        AppHelper.saveToLocalStorage('scDistance', this.tempDistanceFromPincode);
+        this.distance = this.tempDistanceFromPincode;
+      }
       this.cartItems = AppHelper.getFromLocalStorage('scCart');
       if (this.cartItems.length) {
         this.calculateTotal();
+        this.calculateDeliveryCharges();
       }
     }
   }
@@ -134,55 +152,69 @@ export class CartComponent {
     this.cartItems.forEach((element: any) => {
       const product = element.Product;
       let rent = element.rentedAmount;
-      this.handleClassCInCart(product);
       this.cartTotal += rent;
+      this.handleClassEFInCart(product);
     });
     this.orderTotal += this.cartTotal;
+    if (!this.depositAmount) {
+      const odz = AppHelper.getFromLocalStorage('scAway');
+      this.orderTotal += odz ? AppConstants.ODZDepostitAmount : AppConstants.DepositAmount;
+    }
   }
 
-  private handleClassCInCart(product: any): void {
-    const classCPresent = product.Class === 'C';
-    if (classCPresent) {
+  private handleClassEFInCart(product: any): void {
+    const classEFPresent = product.Class === 'E' || product.Class === 'F';
+    if (classEFPresent) {
       if (this.distance > 15) {
         // rent = 0;
-        this.classCDelivery = false;
+        this.classEFDelivery = false;
       } else {
-        if (this.distance <= 5) {
-          this.deliveryTotal += (this.classCPresentAlready ? (120 * 0.5) : 120);
-        } else if (this.distance > 5 && this.distance <= 10) {
-          this.deliveryTotal += (this.classCPresentAlready ? (150 * 0.5) : 150);
+        let deliveryCharge = 0;
+        if (this.distance <= AppConstants.MinDistance) {
+          deliveryCharge = this.getDeliveryChargeBasedOnClassEF(product.Class, 120);
+        } else if (this.distance > AppConstants.MinDistance && this.distance <= AppConstants.MediumDistance) {
+          deliveryCharge = this.getDeliveryChargeBasedOnClassEF(product.Class, 150);
         } else {
-          this.deliveryTotal += (this.classCPresentAlready ? (200 * 0.5) : 200);
+          deliveryCharge = this.getDeliveryChargeBasedOnClassEF(product.Class, 200);
         }
+        this.deliveryTotal += (this.classEFPresentAlready ? (deliveryCharge * 0.5) : deliveryCharge);
       }
-      this.classCPresentAlready = true;
+      this.classEFPresentAlready = true;
+    } else {
+      this.showMinOrderMessage = this.cartTotal < 500 ? true : false;
     }
   }
 
-  private calculateDeliveryCharges() {
-    // 0-15 km: Class A, B => 0
-    // 0-15 km: Class C => 200
-    // Above 15km: Class A, B => 10/km
-    console.log('carttotal => ', this.cartTotal);
-    if (this.cartTotal < 500) {
-      let deliveryCharges = 0;
-      if (this.distance <= 5) {
-        deliveryCharges += 80;
-      } else if (this.distance > 5 && this.distance <= 10) {
-        deliveryCharges += 100;
-      } else {
-        deliveryCharges += 10 * this.distance;
-      }
-      this.deliveryTotal = this.deliveryTotal === 0 ? deliveryCharges : this.deliveryTotal;
-    } else {
-      console.log('sdfgh => ', this.distance);
-      if (this.distance > 15 && this.distance <= 25) {
-        const extraDeliveryDistance = this.distance - 15;
-        this.deliveryTotal = this.deliveryTotal + (extraDeliveryDistance * 10);
-      }
+  private getDeliveryChargeBasedOnClassEF(classType: string, deliveryCharge: number) {
+    if (classType === 'F') {
+      return deliveryCharge * 1.5;
     }
-    console.log('deliveryTotal => ', this.deliveryTotal);
-    this.orderTotal += this.deliveryTotal;
+    return deliveryCharge;
+  }
+
+  public calculateDeliveryCharges() {
+    console.log('carttotal => ', this.cartTotal);
+    if (!this.isOdz) {
+      if (this.cartTotal < AppConstants.MinCartValue) {
+        let deliveryCharges = 0;
+        if (this.distance <= AppConstants.MinDistance) {
+          deliveryCharges += AppConstants.MinDistanceDeliveryCharge;
+        } else if (this.distance > AppConstants.MinDistance && this.distance <= AppConstants.MediumDistance) {
+          deliveryCharges += AppConstants.MediumDistanceDeliveryCharge;
+        } else {
+          deliveryCharges += AppConstants.ChargePerKm * this.distance;
+        }
+        this.deliveryTotal = this.deliveryTotal === 0 ? deliveryCharges : this.deliveryTotal;
+      } else {
+        console.log('sdfgh => ', this.distance);
+        if (this.distance > AppConstants.HighDistance && this.distance <= AppConstants.VeryHighDistance) {
+          const extraDeliveryDistance = this.distance - AppConstants.HighDistance;
+          this.deliveryTotal = this.deliveryTotal + (extraDeliveryDistance * AppConstants.ChargePerKm);
+        }
+      }
+      console.log('deliveryTotal => ', this.deliveryTotal);
+      this.orderTotal += this.deliveryTotal;
+    }
   }
 
   private calculateRewards() {

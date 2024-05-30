@@ -39,5 +39,7 @@ export class LandingComponent {
     AppHelper.saveToLocalStorage('scStoreDetails', store);
     AppHelper.saveToLocalStorage('scStore', store.nearestStore.StoreId);
     AppHelper.saveToLocalStorage('scOutside', String(store.isAway));
+    AppHelper.saveToLocalStorage('scDistance', store.shortestDistance);
+    AppHelper.saveToLocalStorage('scPincode', this.pincode);
   }
 }

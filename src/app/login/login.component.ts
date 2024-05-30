@@ -83,10 +83,12 @@ export class LoginComponent {
   private pushUserDistance() {
     const user = this.appService.user();
     const scDistance = AppHelper.getFromLocalStorage('scDistance');
-    if (user && scDistance) {
-      const { pincode, distance } = scDistance;
+    const pincode = AppHelper.getFromLocalStorage('scPincode');
+    const isAway = AppHelper.getFromLocalStorage('scAway');
+    if (user && scDistance && pincode) {
       user.Pincode = pincode;
-      user.KmDistance = distance;
+      user.KmDistance = scDistance;
+      user.outsideDeliveryZone = isAway;
       this.userService.editUser(user).subscribe();
     }
   }

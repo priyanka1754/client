@@ -1,4 +1,22 @@
-@if (orderPlaced) {
+@if (!this.distance) {
+<div class="p-1">
+  <div>
+    <label for="pincode"
+      >Enter pincode to calculate delivery charges and to view cart items</label
+    >
+    <app-pincode-page
+      (emitDistance)="tempDistanceFromPincode = $event"
+    ></app-pincode-page>
+  </div>
+  <button
+    class="inline-block text-500 p-1 cursor-pointer"
+    (click)="getCart(true)"
+    [disabled]="!tempDistanceFromPincode"
+  >
+    Calculate & View cart
+  </button>
+</div>
+} @else { @if (orderPlaced) {
 <div class="flex justify-between">
   <div>
     Thankyou for placing order. Your order will be delivered on or before:
@@ -13,40 +31,43 @@
     </p-button>
   </div>
 </div>
-} @else() { @if (cartItems.length > 0) {
+} @else { @if (cartItems.length > 0) {
 <div>
   <div class="text-3xl font-semibold text-center">Cart</div>
   <!-- <div>
-    <div class="text-lg font-medium">
-      #1 Note: The toys you are renting are for one month. One month will be
-      calculated from the day toys are delivered. Beyond one month, if you are
-      holding toys and doesn't return, extra rent will be calculated.
-    </div>
-    <div class="text-lg font-medium">
-      #2 Note: Delivery date & time will be communicated to you by our team. We
-      usually deliver only one day in a week. Our regular delivery day is
-      Saturday/Sunday/Public holiday.
-    </div>
-    <div class="text-lg font-medium">
-      #3 Note: Store pickup and drop is available. For parents who do store
-      pickup and drop, they can exchange toys once in the middle of the month.
-    </div>
-    <div class="text-lg font-medium">
-      #4 Note: Every 100 spent, you will get a coin. Every coin used will give
-      5rs discount.
-    </div>
-    <div class="text-lg font-medium">#5 Note: Referral Discount: 300rs.</div>
-  </div> -->
+        <div class="text-lg font-medium">
+          #1 Note: The toys you are renting are for one month. One month will be
+          calculated from the day toys are delivered. Beyond one month, if you are
+          holding toys and doesn't return, extra rent will be calculated.
+        </div>
+        <div class="text-lg font-medium">
+          #2 Note: Delivery date & time will be communicated to you by our team. We
+          usually deliver only one day in a week. Our regular delivery day is
+          Saturday/Sunday/Public holiday.
+        </div>
+        <div class="text-lg font-medium">
+          #3 Note: Store pickup and drop is available. For parents who do store
+          pickup and drop, they can exchange toys once in the middle of the month.
+        </div>
+        <div class="text-lg font-medium">
+          #4 Note: Every 100 spent, you will get a coin. Every coin used will give
+          5rs discount.
+        </div>
+        <div class="text-lg font-medium">#5 Note: Referral Discount: 300rs.</div>
+      </div> -->
   <div>
     <div class="md:flex">
       <div class="xl:w-9/12 lg:w-9/12 w-full bg-white mb-2">
         <div class="grid grid-nogutter">
           @for (cartItem of cartItems; track $index) {
-          <div class="col-12" (click)="loadProduct(cartItem.Product)">
+          <div class="col-12">
             <div
               class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
             >
-              <div class="w-3/6 md:w-1/6">
+              <div
+                class="w-3/6 md:w-1/6"
+                (click)="loadProduct(cartItem.Product)"
+              >
                 <img
                   class="shadow-2 block xl:block mx-auto border-round"
                   [src]="
@@ -89,9 +110,10 @@
             </div>
             <div class="md:w-2/6 flex justify-between">
               <div>
-                @if (cartItem.Product.Class === 'C') { @if(!classCDelivery) {
+                @if (cartItem.Product.Class === 'E' || cartItem.Product.Class
+                === 'F') { @if(!classEFDelivery) {
                 <span class="text-2xl font-semibold"
-                  >Sorry. Beyond 15km, Class C products cannot be
+                  >Sorry. Beyond 15km, Class E & Class F products cannot be
                   deliverable</span
                 >
                 } @else { * Delivery & return pickup charges applicable } }
@@ -103,22 +125,33 @@
       </div>
       <div class="xl:w-3/12 lg:w-3/12 md:w-full sm:w-full p-4 bg-white">
         <div>
+          @if (showMinOrderMessage) {
+          <div class="pb-2 text-pink-500">
+            Rent toys worth minimum &#8377;500 for free delivery & return pickup
+          </div>
+          } @if (!depositAmount) {
+          <div class="flex justify-between">
+            <div>Refundable one-time payable deposit amount:</div>
+            <div>&#8377;{{ (isOdz ? 2000 : 1500) | number : "1.2-2" }}</div>
+          </div>
+          }
           <div class="flex justify-between">
             <div>Total Rent for toys:</div>
             <div>&#8377;{{ cartTotal | number : "1.2-2" }}</div>
           </div>
-          @if (distance) {
+          @if (isOdz) {
+            Please whatsapp 8248284630
+           } @else { @if (distance) {
           <div class="flex justify-between">
             <div>Delivery & Return pickup charges:</div>
             <div>
               @if (deliveryTotal) { &#8377;{{
                 deliveryTotal | number : "1.2-2"
               }}
-              for {{ distance }} km (your distance from our store) } @else() {
-              Free }
+              } @else() { Free }
             </div>
           </div>
-          } @if (appService.user()) {
+          } } @if (appService.user()) {
           <div class="flex justify-between">
             <div>Coins Discount:</div>
             <div>- &#8377;{{ totalByCoins }}</div>
@@ -127,6 +160,7 @@
             <div>Referral Discount:</div>
             <div>- &#8377;300</div>
           </div>
+          }
           <hr class="p-2" />
           <div class="flex justify-between">
             <div class="font-semibold">Total:</div>
@@ -134,7 +168,6 @@
               &#8377;{{ orderTotal | number : "1.2-2" }}
             </div>
           </div>
-          }
         </div>
         <div class="flex justify-center p-2">
           @if (appService.user()) {
@@ -145,19 +178,7 @@
             Place Order
           </p-button>
           } @else {
-          <div class="flex">
-            <div>
-              <label for="pincode">
-                Enter pincode to know delivery charges:
-              </label>
-              <input
-                type="text"
-                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
-                placeholder="Enter pincode"
-                [(ngModel)]="pincode"
-                (ngModelChange)="calculateOnPincode()"
-              />
-            </div>
+          <div>
             <div
               class="inline-block text-green-500 font-bold p-1 cursor-pointer"
               [routerLink]="['/login']"
@@ -187,4 +208,4 @@
     </p-card>
   </div>
 </div>
-} }
+} } }
