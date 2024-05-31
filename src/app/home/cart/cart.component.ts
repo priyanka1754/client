@@ -20,7 +20,8 @@ import { AppConstants } from "../../app.constants";
 })
 export class CartComponent {
   // Each coin worth rs1
-  public coinsCount = 10;
+  public coinsCount = 0;
+  public coinsDiscount = 0;
   public distance = 0;
   public cartTotal = 0;
   public deliveryTotal = 0;
@@ -71,21 +72,26 @@ export class CartComponent {
       products: [] as any,
       orderDate: AppHelper.getFormattedDate(this.today),
       orderTotal: this.orderTotal,
-      Status: 'Placed'
+      Status: 'Placed',
+      addonDeposit: 0,
+      isNewCustomer: this.appService.user().Status === 'New'
     };
     this.cartItems.forEach((item: any) => {
+      order.addonDeposit += this.addOnDeposit(item);
       order.products = [...order.products, {
         product: item.Product,
         return: item.rentedDays === '15 days' ? this.dateFor15Days : this.dateFor30Days,
         rentedDays: item.rentedDays,
         rentedAmount: item.rentedAmount
-
       }];
     });
 
     this.orderService.placeOrder(order).subscribe(() => {
       this.orderPlaced = true;
       this.clearCart();
+      if (this.appService.user().Status === 'New') {
+        location.reload();
+      }
     });
   }
 
@@ -124,6 +130,7 @@ export class CartComponent {
           this.cartItems = res;
           const cartCount = this.cartItems.length;
           this.appService.cartCount.update(() => cartCount);
+          this.isOdz = this.appService.user().outsideDeliveryZone;
           this.calculateTotal();
           this.calculateDeliveryCharges();
           this.calculateRewards();
@@ -137,10 +144,15 @@ export class CartComponent {
       }
       this.cartItems = AppHelper.getFromLocalStorage('scCart');
       if (this.cartItems.length) {
+        this.isOdz = AppHelper.getFromLocalStorage('scAway');
         this.calculateTotal();
         this.calculateDeliveryCharges();
       }
     }
+  }
+
+  private addOnDeposit(product: any) {
+    return product.class === 'E' ? 500 : (product.class === 'F' ? 1000 : 0)
   }
 
   private clearCart(): void {
@@ -157,9 +169,9 @@ export class CartComponent {
     });
     this.orderTotal += this.cartTotal;
     if (!this.depositAmount) {
-      const odz = AppHelper.getFromLocalStorage('scAway');
-      this.orderTotal += odz ? AppConstants.ODZDepostitAmount : AppConstants.DepositAmount;
+      this.orderTotal += this.isOdz ? AppConstants.ODZDepostitAmount : AppConstants.DepositAmount;
     }
+    this.orderTotal = this.orderTotal - this.coinsDiscount;
   }
 
   private handleClassEFInCart(product: any): void {
@@ -193,7 +205,7 @@ export class CartComponent {
   }
 
   public calculateDeliveryCharges() {
-    console.log('carttotal => ', this.cartTotal);
+    console.log('carttotal => ', this.cartTotal, this.distance);
     if (!this.isOdz) {
       if (this.cartTotal < AppConstants.MinCartValue) {
         let deliveryCharges = 0;

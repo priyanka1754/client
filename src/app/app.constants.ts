@@ -8,5 +8,7 @@ export const AppConstants = {
   HighDistance: 15,
   VeryHighDistance: 25,
   DepositAmount: 1500,
-  ODZDepostitAmount: 2000
+  ODZDepostitAmount: 2000,
+  AddonClassEDeposit: 500,
+  AddonClassFDeposit: 1000
 }
