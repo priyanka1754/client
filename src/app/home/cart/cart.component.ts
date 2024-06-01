@@ -90,7 +90,7 @@ export class CartComponent {
       this.orderPlaced = true;
       this.clearCart();
       if (this.appService.user().Status === 'New') {
-        location.reload();
+        location.reload(); 
       }
     });
   }

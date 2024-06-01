@@ -29,4 +29,9 @@ export class WishlistService {
     const url = `/api/wishlist/remove/${id}`;
     return this.http.delete(url);
   }
+
+  public addNotifyProduct(request: any): Observable<any> {
+    const url = `/api/notifyProduct/add`;
+    return this.http.post(url, request);
+  }
 }
