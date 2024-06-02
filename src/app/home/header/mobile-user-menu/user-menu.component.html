@@ -1,5 +1,6 @@
+<!--User menu-->
 <div (click)="toggleDrawer()">
-  <i class="fa-regular fa-user"></i>
+  <i class="fa-regular fa-user cursor-pointer"></i>
 </div>
 <div class="fixed inset-20 flex z-50" [class.hidden]="!showDrawer">
   <div
@@ -36,7 +37,7 @@
           >My Orders</a
         >
         <a
-          href="#"
+          [routerLink]="['/profile/wallet']"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
           role="menuitem"
           (click)="showDrawer = false"

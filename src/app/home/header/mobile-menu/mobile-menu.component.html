@@ -1,3 +1,4 @@
+<!--Menu displayed at bottom-->
 <nav
   class="bg-gray-300 fixed bottom-0 w-full flex justify-around items-center p-2 md:hidden"
 >
@@ -10,24 +11,24 @@
   </a>
   <a
     (click)="openOrders()"
-    class="flex flex-col items-center text-gray-800 hover:text-black"
+    class="flex flex-col items-center text-gray-800 hover:text-black cursor-pointer"
   >
     <i class="fa-solid fa-receipt"></i>
     <span class="text-xs">Orders</span>
   </a>
   <a
     (click)="openProductMenu()"
-    class="flex flex-col items-center text-gray-800 hover:text-black"
+    class="flex flex-col items-center text-gray-800 hover:text-black cursor-pointer"
   >
     <i class="fa-solid fa-shop"></i>
     <span class="text-xs">Products</span>
   </a>
   <a
-    [routerLink]="['/contact']"
-    class="flex flex-col items-center text-gray-800 hover:text-black"
+  (click)="openWallet()"
+    class="flex flex-col items-center text-gray-800 hover:text-black cursor-pointer"
   >
-    <i class="fa-solid fa-phone"></i>
-    <span class="text-xs">Contact</span>
+    <i class="fa-solid fa-wallet"></i>
+    <span class="text-xs">Wallet</span>
   </a>
   <a
     [routerLink]="['/cart']"

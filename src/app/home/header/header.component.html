@@ -16,11 +16,11 @@
         <div>
           <app-product-menu></app-product-menu>
         </div>
-        } @else {
+        } @else { @if (!isSimpleHeader) {
         <div [class.mobile-sticky]="appService.isMobileScreen()">
           <app-mobile-menu></app-mobile-menu>
         </div>
-        }
+        } }
       </div>
     </div>
     <!-- Login and Cart -->
@@ -28,6 +28,13 @@
       @if (appService.user()) { @if (appService.isMobileScreen()) {
       <div>
         <app-mobile-user-menu></app-mobile-user-menu>
+      </div>
+      <div>
+        <a
+        [routerLink]="['/contact']"
+        >
+          <i class="fa-solid fa-phone"></i>
+        </a>
       </div>
       } @else {
       <div class="ml-auto">

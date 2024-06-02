@@ -7,12 +7,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
-import { RouterModule } from '@angular/router';
+import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AppService } from '../app.service';
 import { UserService } from '../login/user.service';
 import { SecondaryHeaderComponent } from './secondary-header/secondary-header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppHelper } from '../utils/app.helper';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -32,11 +33,26 @@ export class HomeComponent implements AfterViewInit {
 
   public loadHome = false;
 
+  public isSimpleHeader = false;
+
   constructor(
     private appService: AppService,
     private userService: UserService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: Event) => {
+      const navigationEndEvent = event as NavigationEnd;
+      console.log('NavigationEnd:', navigationEndEvent.urlAfterRedirects);
+      const url = navigationEndEvent.urlAfterRedirects;
+      if (url === '/login' || url === '/signup') {
+        this.isSimpleHeader = true;
+      } else {
+        this.isSimpleHeader = false;
+      }
+    });
     const user = AppHelper.getFromLocalStorage('scUser');
     console.log('user => ', user);
     if (user && user._id) {

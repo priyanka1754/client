@@ -22,9 +22,6 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     // set user
     this.setUser();
-
-    AppHelper.saveToLocalStorage('scStore', 'CHNPER1');
-    AppHelper.saveToLocalStorage('scOutside', 'false');
   }
 
   private setUser() {

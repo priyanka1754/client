@@ -34,12 +34,14 @@ export class LandingComponent {
   }
 
   public proceed(): void {
+    console.log('pincode => ', this.pincode);
     this.loadHome = true;
     const store: any = this.locationService.selectedStore();
     AppHelper.saveToLocalStorage('scStoreDetails', store);
     AppHelper.saveToLocalStorage('scStore', store.nearestStore.StoreId);
-    AppHelper.saveToLocalStorage('scOutside', String(store.isAway));
+    AppHelper.saveToLocalStorage('scOutside', store.isAway);
     AppHelper.saveToLocalStorage('scDistance', store.shortestDistance);
     AppHelper.saveToLocalStorage('scPincode', this.pincode);
+    console.log('store => ', store);
   }
 }

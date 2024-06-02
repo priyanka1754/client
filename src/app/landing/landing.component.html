@@ -6,7 +6,10 @@
     <!-- Logo Section -->
     <img src="assets/skipcry_logo.png" alt="Logo" class="mb-8" />
 
-    <app-pincode-page (emitOutsideDeliveryZone)="isOutsideDeliveryZone = $event"></app-pincode-page>
+    <app-pincode-page
+      (emitOutsideDeliveryZone)="isOutsideDeliveryZone = $event"
+      (emitPincode)="pincode = $event"
+    ></app-pincode-page>
 
     <!-- Proceed Button -->
     <button

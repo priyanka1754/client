@@ -50,12 +50,13 @@ export class SignupComponent {
   }
 
   public signup() {
+    const pincode = AppHelper.getFromLocalStorage('scPincode');
     const user = {
       Name: this.name,
       Mobile: this.phone,
       Password: this.password,
       City: this.city,
-      Pincode: this.pincode
+      Pincode: pincode
     };
 
     this.userService.signup(user).subscribe(() => {

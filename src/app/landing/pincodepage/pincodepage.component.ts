@@ -25,6 +25,9 @@ export class PincodePageComponent {
   @Output()
   public emitDistance: EventEmitter<number> = new EventEmitter<number>();
 
+  @Output()
+  public emitPincode: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(private locationService: LocationService) { }
 
   public validatePincode() {
@@ -56,6 +59,7 @@ export class PincodePageComponent {
     console.log('store res => ', store);
     this.emitOutsideDeliveryZone.emit(store.isAway);
     this.emitDistance.emit(store.shortestDistance);
+    this.emitPincode.emit(this.pincode);
     if (!store.isAway) {
       const distance = store.shortestDistance;
       if (distance) {

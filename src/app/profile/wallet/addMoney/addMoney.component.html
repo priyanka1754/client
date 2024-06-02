@@ -1,13 +1,18 @@
-    <!-- Amount Input Section -->
-    <div class="w-full mb-4">
-      <label for="pincode" class="sr-only">Enter Amount</label>
-      <input
-        type="number"
-        id="amount"
-        placeholder="Enter Amount"
-        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-        [(ngModel)]="amount"
-        (ngModelChange)="validatePincode()"
-      />
-    </div>
-
+<!-- Amount Input Section -->
+<div class="w-full mb-4 flex">
+  <label for="pincode" class="sr-only">Enter Amount</label>
+  <input
+    type="number"
+    id="amount"
+    placeholder="Enter Amount"
+    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+    [(ngModel)]="amount"
+  />
+  <button
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    [disabled]="!amount"
+    (click)="addMoney()"
+  >
+    Add
+  </button>
+</div>

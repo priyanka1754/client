@@ -12,7 +12,7 @@ import { AppService } from '../../../app.service';
 export class MobileMenuComponent {
   public showDrawer = false;
 
-  constructor(private router: Router, public appService: AppService) {}
+  constructor(private router: Router, public appService: AppService) { }
   public openProductMenu() {
     console.log('openProductMenu');
     this.showDrawer = !this.showDrawer;
@@ -20,5 +20,9 @@ export class MobileMenuComponent {
 
   public openOrders() {
     this.router.navigate(['profile', 'orders']);
+  }
+
+  public openWallet() {
+    this.router.navigate(['profile', 'wallet']);
   }
 }

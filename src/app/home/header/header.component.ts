@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, HostListener, Input, ViewChild } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { ButtonModule } from "primeng/button";
 import { OrderService } from "../../products/order.service";
@@ -18,6 +18,8 @@ import { ProductMenuComponent } from "./product-menu/product-menu.component";
 })
 export class HeaderComponent implements AfterViewInit {
 
+  @Input()
+  public isSimpleHeader = false;
   public cartCount = "";
 
   @ViewChild('header', { static: true })

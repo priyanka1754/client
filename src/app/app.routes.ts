@@ -12,11 +12,14 @@ import { SignupComponent } from './login/signup/signup.component';
 import { ProductsByCategoryComponent } from './products/productsByCategory/productsByCategory.component';
 import { ProductsBySearchComponent } from './home/secondary-header/searchbar/productsBySearch/productsBySearch.component';
 import { WishlistComponent } from './profile/wishlist/wishlist.component';
+import { WalletComponent } from './profile/wallet/wallet.component';
+import { ContactComponent } from './contact/contact.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'productDetails/:Code', component: ProductDetailsComponent },
   { path: 'productsByAge/:agetype', component: ProductsByAgeComponent },
   {
@@ -33,6 +36,7 @@ export const routes: Routes = [
       { path: 'account', component: AccountComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'wishlist', component: WishlistComponent },
+      { path: 'wallet', component: WalletComponent },
     ],
   },
 ];

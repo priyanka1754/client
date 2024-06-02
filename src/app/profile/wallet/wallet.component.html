@@ -1,5 +1,48 @@
-<h1 class="text-2xl font-bold mb-4">My Wishlist</h1>
-
+<h1 class="text-2xl font-bold mb-4">My Wallet</h1>
+<p>Wallet can only be used in our toy library</p>
 <div>
-  
+  <app-add-money (emitWallet)="updateWallet($event)"></app-add-money>
 </div>
+@if (wallet) {
+<div>
+  <div>My Wallet: &#8377;{{ wallet.totalAmount }}</div>
+  <!-- <div>Wallet breakdown:</div>
+  <div class="p-2 w-1/2">
+    <div class="flex justify-between">
+      <div>Amount added:</div>
+      <div>&#8377;{{ wallet.amountByAddingToWallet }}</div>
+    </div>
+    <div class="flex justify-between">
+      <div>Amount from referrals:</div>
+      <div>
+        <p>&#8377;{{ wallet.amountFromReferrals }}</p>
+        <p>How to earn?</p>
+      </div>
+    </div>
+    <div class="flex justify-between">
+      <div>Amount from rewards:</div>
+      <div>
+        <p>&#8377;{{ wallet.amountFromRewards }}</p>
+        <p>How to earn?</p>
+      </div>
+    </div>
+    <div class="flex justify-between">
+      <div>Amount from giftcards:</div>
+      <div>
+        <p>&#8377;{{ wallet.amountFromGiftCards }}</p>
+        <p>How to earn?</p>
+      </div>
+    </div>
+  </div> -->
+  <div class="p-2">
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
+      [routerLink]="['/']"
+    >
+      Rent Now
+    </button>
+  </div>
+</div>
+} @else {
+<p>Failed to load wallet</p>
+}
