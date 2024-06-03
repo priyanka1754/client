@@ -19,6 +19,7 @@ export class AddMoneyComponent {
   public addMoney() {
     this.walletService.addMoney(this.amount).subscribe((res: any) => {
       console.log('res => ', res);
+      this.amount = 0;
       this.emitWallet.emit(res.toyWallet);
     });
   }

@@ -14,6 +14,7 @@ import { ProductsBySearchComponent } from './home/secondary-header/searchbar/pro
 import { WishlistComponent } from './profile/wishlist/wishlist.component';
 import { WalletComponent } from './profile/wallet/wallet.component';
 import { ContactComponent } from './contact/contact.component';
+import { BlockToysComponent } from './profile/blocktoys/blocktoys.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -37,6 +38,7 @@ export const routes: Routes = [
       { path: 'orders', component: OrdersComponent },
       { path: 'wishlist', component: WishlistComponent },
       { path: 'wallet', component: WalletComponent },
+      { path: 'blockproduct', component: BlockToysComponent },
     ],
   },
 ];

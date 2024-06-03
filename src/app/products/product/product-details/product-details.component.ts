@@ -12,6 +12,8 @@ import { ProductGalleryComponent } from './gallery/product-gallery.component';
 import { WishlistService } from './wishlist.service';
 import { BlockPricePipe } from './blockProductPrice.pipe';
 import { AppHelper } from '../../../utils/app.helper';
+import { AddMoneyComponent } from '../../../profile/wallet/addMoney/addMoney.component';
+import { BlockProductComponent } from './blockProduct/blockProduct.component';
 
 @Component({
   selector: 'app-product-details',
@@ -24,7 +26,9 @@ import { AppHelper } from '../../../utils/app.helper';
     SelectButtonModule,
     RouterModule,
     ProductGalleryComponent,
-    BlockPricePipe
+    BlockPricePipe,
+    AddMoneyComponent,
+    BlockProductComponent
   ],
 })
 export class ProductDetailsComponent implements OnInit {
@@ -35,8 +39,6 @@ export class ProductDetailsComponent implements OnInit {
   images: any[] | undefined;
 
   responsiveOptions: any[] | undefined;
-
-  public day7FromToday = '';
 
   public stateOptions: any[] = [
     { label: '15 Days', value: '15d' },
@@ -59,6 +61,10 @@ export class ProductDetailsComponent implements OnInit {
   public canNotify = false;
 
   private wishlistId: string = '';
+
+  public wallet: any;
+
+  public canBlockToy = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -125,7 +131,6 @@ export class ProductDetailsComponent implements OnInit {
         numVisible: 1,
       },
     ];
-    this.day7FromToday = AppHelper.getParticularDateFromTodayByDays(7);
   }
 
   public ngOnInit(): void {
@@ -194,25 +199,6 @@ export class ProductDetailsComponent implements OnInit {
 
   public notifyAvailability(product: any) {
     console.log('product => ', product);
-    if (this.appService.user()) {
-      const req = {
-        productId: product.Code,
-        storeId: product.StoreId,
-        customerId: this.appService.user().CustomerId,
-        nextAvailable: product.NextAvailableBy
-      }
-      console.log('reee => ', req);
-      this.wishlistService.addNotifyProduct(req).subscribe(() => {
-        this.canNotify = true;
-      }, () => {
-        this.canNotify = false;
-      });
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  public blockProduct(product: any) {
     if (this.appService.user()) {
       const req = {
         productId: product.Code,

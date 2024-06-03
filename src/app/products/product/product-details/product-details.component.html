@@ -74,17 +74,7 @@
     </div>
     <div>
       @if (!product.ShopQty) {
-      <div class="flex">
-        <div class="text-red-500 font-bold py-1 px-2 rounded">Out of Stock</div>
-        <p-button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
-          (onClick)="blockProduct(product)"
-        >
-          Block for &#8377;{{ product.rent30 | blockPrice }} till
-          {{ day7FromToday | date : "MMM d, y" }}
-        </p-button>
-        <p>To block a toy, you need to have money in toy wallet</p>
-      </div>
+      <app-block-product [product]="product"></app-block-product>
       <div>
         <p class="text-gray-500 mb-2">
           Available from {{ product.NextAvailableBy | date : "MMM d, y" }}
@@ -92,21 +82,24 @@
         @if (canNotify) {
         <p>You will be notified when available.</p>
         } @else {
-        <p-button
+        <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
-          (onClick)="notifyAvailability(product)"
+          (click)="notifyAvailability(product)"
         >
           Notify
-        </p-button>
+        </button>
         }
       </div>
       } @else { @if (!productInCart) {
-      <p-button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
-        (onClick)="addToCart(product)"
-      >
-        Add to Cart
-      </p-button>
+      <div>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border"
+          (click)="addToCart(product)"
+        >
+          Add to Cart
+        </button>
+      </div>
+      <app-block-product [product]="product"></app-block-product>
       <div>
         <p class="text-gray-700 mb-2">
           {{ product.Description }}

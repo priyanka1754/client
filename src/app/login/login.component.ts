@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { AppHelper } from '../utils/app.helper';
 import { OrderService } from '../products/order.service';
+import { WalletService } from '../profile/wallet/wallet.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent {
     public userService: UserService,
     private router: Router,
     private appService: AppService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private walletService: WalletService
   ) {
     this.isValidPassword = true;
     this.isValidPhoneNumber = true;
