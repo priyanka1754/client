@@ -5,12 +5,14 @@ import { DataViewModule } from 'primeng/dataview';
 import { ProductsService } from './products.service';
 import { ProductComponent } from './product/product.component';
 import { FormsModule } from '@angular/forms';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, ButtonModule, DataViewModule, ProductComponent, FormsModule],
-  templateUrl: './products.component.html'
+  imports: [CommonModule, ButtonModule, DataViewModule, ProductComponent, FormsModule, ScrollingModule],
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
   @ViewChild('content') content!: ElementRef;

@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { AppService } from './app.service';
-import { OrderService } from './products/order.service';
 import { AppHelper } from './utils/app.helper';
-import { LocationService } from './location.service';
 import { LandingComponent } from './landing/landing.component';
 
 @Component({

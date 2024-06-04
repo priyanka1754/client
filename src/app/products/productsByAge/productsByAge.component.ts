@@ -6,7 +6,6 @@ import { ProductsService } from '../products.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsComponent } from '../products.component';
 import { AppLoaderComponent } from '../../loader/loader.component';
-import { AppHelper } from '../../utils/app.helper';
 
 @Component({
   selector: 'app-products-by-age',
@@ -16,7 +15,7 @@ import { AppHelper } from '../../utils/app.helper';
     ButtonModule,
     DataViewModule,
     ProductsComponent,
-    AppLoaderComponent,
+    AppLoaderComponent
   ],
   templateUrl: './productsByAge.component.html',
 })
@@ -32,7 +31,7 @@ export class ProductsByAgeComponent implements OnInit {
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -46,6 +45,7 @@ export class ProductsByAgeComponent implements OnInit {
       (resp: any) => {
         this.products = resp;
         this.isLoading = false;
+        window.scrollTo(0, 0);
       },
       () => {
         this.isLoading = true;

@@ -44,6 +44,7 @@ export class HomeComponent implements AfterViewInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: Event) => {
+      window.scrollTo(0, 0);
       const navigationEndEvent = event as NavigationEnd;
       console.log('NavigationEnd:', navigationEndEvent.urlAfterRedirects);
       const url = navigationEndEvent.urlAfterRedirects;
@@ -69,6 +70,7 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     // Listen for header resize
     window.addEventListener('resize', () => {
+      window.scrollTo(0, 0);
       this.adjustDivBelowHeader();
     });
     this.adjustDivBelowHeader();

@@ -2,81 +2,75 @@
 <div (click)="toggleDrawer()">
   <i class="fa-regular fa-user cursor-pointer"></i>
 </div>
-<div class="fixed inset-20 flex z-50" [class.hidden]="!showDrawer">
-  <div
-    class="fixed inset-0 bg-black bg-opacity-50"
-    (click)="toggleDrawer()"
-  ></div>
-  <div class="relative inline-block text-left">
-    <div>Hi, {{ user.Name }}</div>
-    <div
-      class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-      role="menu"
-      aria-orientation="vertical"
-      aria-labelledby="options-menu"
-    >
-      <div class="py-1" role="none">
-        <div
-          class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
-        >
-          <div>Status: {{ user.Status }}</div>
-          <div>{{ dueDay }}</div>
-        </div>
-        <a
-          [routerLink]="['/profile/account']"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Account</a
-        >
-        <a
-          [routerLink]="['/profile/orders']"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Orders</a
-        >
-        <a
-          [routerLink]="['/profile/wallet']"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Toy Wallet</a
-        >
-        <a
-          href="#"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Rewards & gifts</a
-        >
-        <a
-          href="#"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Blocked Toys</a
-        >
-        <a
-          [routerLink]="['profile', 'wishlist']"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Wishlist</a
-        >
-        <a
-          href="#"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-          (click)="showDrawer = false"
-          >My Returns & Tickets</a
-        >
-        <div
-          (click)="logout()"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-          role="menuitem"
-        >
-          Logout
+<div class="fixed inset-0 flex z-50" [class.hidden]="!showDrawer">
+  <div class="fixed inset-0 bg-white">
+    <div class="flex justify-end">
+      <button class="text-black" (click)="toggleDrawer()">Close</button>
+    </div>
+    <div>
+      <div class="text-black">Hi, {{ user.Name }}</div>
+      <div
+        class="origin-top-right absolute bg-white focus:outline-none"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="options-menu"
+      >
+        <div class="py-1" role="none">
+          <div
+            class="block px-4 py-2 text-sm text-gray-400 hover:bg-gray-100 hover:text-gray-900"
+          >
+            <div>Status: {{ user.Status }}</div>
+            <div>{{ dueDay }}</div>
+          </div>
+          <a
+            [routerLink]="['/profile/account']"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+            (click)="showDrawer = false"
+            >My Account</a
+          >
+          <a
+            [routerLink]="['/profile/orders']"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+            (click)="showDrawer = false"
+            >My Orders</a
+          >
+          <a
+            [routerLink]="['/profile/wallet']"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+            (click)="showDrawer = false"
+            >My Toy Wallet</a
+          >
+          <a
+            [routerLink]="['/profile/blockproduct']"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+            (click)="showDrawer = false"
+            >My Blocked Toys</a
+          >
+          <a
+            [routerLink]="['profile', 'wishlist']"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+            (click)="showDrawer = false"
+            >My Wishlist</a
+          >
+          <a
+            href="#"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+            (click)="showDrawer = false"
+            >My Returns & Tickets</a
+          >
+          <div
+            (click)="logout()"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            role="menuitem"
+          >
+            Logout
+          </div>
         </div>
       </div>
     </div>
