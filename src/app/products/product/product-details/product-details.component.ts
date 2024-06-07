@@ -14,6 +14,8 @@ import { BlockPricePipe } from './blockProductPrice.pipe';
 import { AppHelper } from '../../../utils/app.helper';
 import { AddMoneyComponent } from '../../../profile/wallet/addMoney/addMoney.component';
 import { BlockProductComponent } from './blockProduct/blockProduct.component';
+import { RelatedProductsComponent } from './related-products/related-products.component';
+import { ProductAvailableCheckComponent } from './availabilityCheck/product-check.component';
 
 @Component({
   selector: 'app-product-details',
@@ -28,15 +30,15 @@ import { BlockProductComponent } from './blockProduct/blockProduct.component';
     ProductGalleryComponent,
     BlockPricePipe,
     AddMoneyComponent,
-    BlockProductComponent
+    BlockProductComponent,
+    RelatedProductsComponent,
+    ProductAvailableCheckComponent
   ],
 })
 export class ProductDetailsComponent implements OnInit {
   public productId: any;
 
   public product: any = null;
-
-  images: any[] | undefined;
 
   responsiveOptions: any[] | undefined;
 
@@ -75,48 +77,6 @@ export class ProductDetailsComponent implements OnInit {
     private local: LocalStorageService,
     private wishlistService: WishlistService
   ) {
-    this.images = [
-      {
-        itemImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S1.jpg',
-        thumbnailImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S1.jpg',
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-      },
-      {
-        itemImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S2.jpg',
-        thumbnailImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S1.jpg',
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-      },
-      {
-        itemImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S3.jpg',
-        thumbnailImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S1.jpg',
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-      },
-      {
-        itemImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S4.jpg',
-        thumbnailImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S1.jpg',
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-      },
-      {
-        itemImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S5.jpg',
-        thumbnailImageSrc:
-          'https://toyimages.s3.ap-southeast-2.amazonaws.com/S1.jpg',
-        alt: 'Description for Image 1',
-        title: 'Title 1',
-      },
-    ];
     this.responsiveOptions = [
       {
         breakpoint: '1024px',
@@ -134,6 +94,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.product = null;
     this.route.params.subscribe((params) => {
       this.productId = params['Code'];
       this.getProductByCode();
@@ -236,6 +197,7 @@ export class ProductDetailsComponent implements OnInit {
       .getProductByCode(this.productId)
       .subscribe((product: any) => {
         this.product = product;
+        console.log('getProductByCode product => ', product);
         this.setRentValue(this.daysValue, product);
         this.productInCart = this.local.checkIfProductInCart(product);
         console.log('productincart => ', this.productInCart);

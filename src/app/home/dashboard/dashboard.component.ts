@@ -30,56 +30,41 @@ export class DashboardComponent {
   onResize(event: any) {
     this.screenWidth = window.innerWidth;
     // Adjust your variable based on screen width
-    if (this.screenWidth < 768) {
-      this.banners = [
-        'https://via.placeholder.com/600x300/FF5733/FFFFFF',
-        'https://via.placeholder.com/600x300/FFC300/FFFFFF',
-        'https://via.placeholder.com/600x300/C70039/FFFFFF'
-      ];
-      // Set variable for small screens
-    } else if (this.screenWidth >= 768 && this.screenWidth < 1024) {
-      // Set variable for medium screens
-      this.banners = [
-        'https://via.placeholder.com/1000x300/FF5733/FFFFFF',
-        'https://via.placeholder.com/1000x300/FFC300/FFFFFF',
-        'https://via.placeholder.com/1000x300/C70039/FFFFFF'
-      ];
-    } else {
-      // Set variable for large screens
-      this.banners = [
-        'https://via.placeholder.com/1200x300/FF5733/FFFFFF',
-        'https://via.placeholder.com/1200x300/FFC300/FFFFFF',
-        'https://via.placeholder.com/1200x300/C70039/FFFFFF'
-      ];
-    }
+    this.banners = this.getBanners();
   }
 
   @HostListener('window:load', ['$event'])
   onload(event: any) {
     this.screenWidth = window.innerWidth;
     // Adjust your variable based on screen width
+    this.banners = this.getBanners();
+  }
+
+  private getBanners(): string[] {
+    let banners = [];
     if (this.screenWidth < 768) {
-      this.banners = [
-        'https://via.placeholder.com/600x300/FF5733/FFFFFF',
-        'https://via.placeholder.com/600x300/FFC300/FFFFFF',
-        'https://via.placeholder.com/600x300/C70039/FFFFFF'
+      banners = [
+        'https://via.placeholder.com/600x600/FF5733/FFFFFF',
+        'https://via.placeholder.com/600x600/FFC300/FFFFFF',
+        'https://via.placeholder.com/600x600/C70039/FFFFFF'
       ];
       // Set variable for small screens
     } else if (this.screenWidth >= 768 && this.screenWidth < 1024) {
       // Set variable for medium screens
-      this.banners = [
+      banners = [
         'https://via.placeholder.com/1000x300/FF5733/FFFFFF',
         'https://via.placeholder.com/1000x300/FFC300/FFFFFF',
         'https://via.placeholder.com/1000x300/C70039/FFFFFF'
       ];
     } else {
       // Set variable for large screens
-      this.banners = [
+      banners = [
         'https://via.placeholder.com/1200x300/FF5733/FFFFFF',
         'https://via.placeholder.com/1200x300/FFC300/FFFFFF',
         'https://via.placeholder.com/1200x300/C70039/FFFFFF'
       ];
     }
+    return banners;
   }
 
 }

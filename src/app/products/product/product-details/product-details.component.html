@@ -35,7 +35,9 @@
 <div class="md:flex">
   <!-- Product Images -->
   <div class="md:w-3/5 md:pl-10">
-    <app-gallery [product]="product"></app-gallery>
+    @if (product) {
+      <app-gallery [product]="product"></app-gallery>
+    }
   </div>
 
   <!-- Product Details -->
@@ -76,10 +78,11 @@
       @if (!product.ShopQty) {
       <app-block-product [product]="product"></app-block-product>
       <div>
+        @if (product.NextAvailableBy) {
         <p class="text-gray-500 mb-2">
           Available from {{ product.NextAvailableBy | date : "MMM d, y" }}
         </p>
-        @if (canNotify) {
+        } @if (canNotify) {
         <p>You will be notified when available.</p>
         } @else {
         <button
@@ -89,6 +92,7 @@
           Notify
         </button>
         }
+        <app-product-check [product]="product" (emitAddTocart)="addToCart($event)"></app-product-check>
       </div>
       } @else { @if (!productInCart) {
       <div>
@@ -122,3 +126,9 @@
   </div>
 </div>
 }
+
+<div>
+  @if (product) {
+  <app-related-products [product]="product"></app-related-products>
+  }
+</div>

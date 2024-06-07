@@ -1,0 +1,12 @@
+@if (isAvailable) {
+<div>
+  <p>This product is available in mother store.</p>
+  <p>Do you want to this?</p>
+  <div
+    class="inline-block text-green-500 font-bold p-1 cursor-pointer"
+    (click)="addToCart()"
+  >
+    Yes, Add to cart
+  </div>
+</div>
+}

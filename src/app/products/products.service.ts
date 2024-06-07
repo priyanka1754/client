@@ -8,6 +8,8 @@ import { AppHelper } from "../utils/app.helper";
 })
 export class ProductsService {
 
+  public selectedProduct = null;
+
   constructor(private http: HttpClient) { }
 
   public getAllProducts(): Observable<any> {
@@ -39,6 +41,12 @@ export class ProductsService {
     params = params.set('searchKey', key);
     params = params.set('store', storeId);
     const url = `/api/products/search?${params.toString()}`;
+    return this.http.get(url);
+  }
+
+  public getProductByStoreAvailability(code: number): Observable<any> {
+    const storeId = 'CHNPER1';
+    const url = `/api/products/checkAndGet/${code}/store/${storeId}`;
     return this.http.get(url);
   }
 

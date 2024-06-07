@@ -4,7 +4,7 @@ import { DataViewModule } from "primeng/dataview";
 import { CommonModule } from "@angular/common";
 import { CardModule } from "primeng/card";
 import { ButtonModule } from "primeng/button";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-profile-orders',
@@ -17,7 +17,7 @@ export class OrdersComponent {
   public orders: any = [];
   public layout: 'grid' | 'list' = 'list';
 
-  constructor(private orderService: OrderService) {
+  constructor(private orderService: OrderService, private router: Router) {
     // get orders
     this.getOrders();
   }
@@ -26,5 +26,9 @@ export class OrdersComponent {
     this.orderService.getOrders().subscribe((orders: any) => {
       this.orders = orders;
     });
+  }
+
+  public loadProduct(product: any) {
+    this.router.navigate(['productDetails', product.Code]);
   }
 }
