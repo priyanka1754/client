@@ -201,6 +201,13 @@ export class ProductDetailsComponent implements OnInit {
         this.setRentValue(this.daysValue, product);
         this.productInCart = this.local.checkIfProductInCart(product);
         console.log('productincart => ', this.productInCart);
+        if (this.product.ShopQty === 0) {
+          this.productService.getProductByStoreAvailability(this.product.Code).subscribe((availableProduct: any) => {
+            // this.isAvailable = !!availableProduct;
+            this.product = availableProduct;
+            console.log('product from mother store => ', product);
+          });
+        }
       });
   }
 }

@@ -67,6 +67,7 @@ export class CartComponent {
   }
 
   public placeOrder(cartItems: any): void {
+    console.log('user => ', this.appService.user());
     const order = {
       customerId: this.appService.user().CustomerId,
       products: [] as any,
@@ -74,8 +75,10 @@ export class CartComponent {
       orderTotal: this.orderTotal,
       Status: 'Placed',
       addonDeposit: 0,
-      isNewCustomer: this.appService.user().Status === 'New'
+      isNewCustomer: this.appService.user().Status === 'New',
+      storeId: this.appService.user().StoreId
     };
+    console.log('order => ', order);
     this.cartItems.forEach((item: any) => {
       order.addonDeposit += this.addOnDeposit(item);
       order.products = [...order.products, {
@@ -90,7 +93,7 @@ export class CartComponent {
       this.orderPlaced = true;
       this.clearCart();
       if (this.appService.user().Status === 'New') {
-        location.reload(); 
+        location.reload();
       }
     });
   }
