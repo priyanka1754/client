@@ -1,4 +1,20 @@
 <div>
   <app-searchbar></app-searchbar>
   <app-locationbar></app-locationbar>
+  @if (this.appService.user()) {
+    <div class="flex justify-between">
+      <div
+        class="inline-block text-green-500 font-bold p-1 cursor-pointer"
+        [routerLink]="['/giftCards']"
+      >
+        Gift Cards
+      </div>
+      <div
+        class="inline-block text-green-500 font-bold p-1 cursor-pointer"
+        [routerLink]="['/refer']"
+      >
+        Refer & Earn
+      </div>
+    </div>
+    }
 </div>

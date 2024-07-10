@@ -36,7 +36,7 @@ export class HomeComponent implements AfterViewInit {
   public isSimpleHeader = false;
 
   constructor(
-    private appService: AppService,
+    public appService: AppService,
     private userService: UserService,
     private renderer: Renderer2,
     private router: Router
@@ -48,7 +48,7 @@ export class HomeComponent implements AfterViewInit {
       const navigationEndEvent = event as NavigationEnd;
       console.log('NavigationEnd:', navigationEndEvent.urlAfterRedirects);
       const url = navigationEndEvent.urlAfterRedirects;
-      if (url === '/login' || url === '/signup') {
+      if (url === '/login' || url === '/signup' || url === '/refer') {
         this.isSimpleHeader = true;
       } else {
         this.isSimpleHeader = false;

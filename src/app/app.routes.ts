@@ -15,6 +15,7 @@ import { WishlistComponent } from './profile/wishlist/wishlist.component';
 import { WalletComponent } from './profile/wallet/wallet.component';
 import { ContactComponent } from './contact/contact.component';
 import { BlockToysComponent } from './profile/blocktoys/blocktoys.component';
+import { ReferComponent } from './refer/refer.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -30,6 +31,7 @@ export const routes: Routes = [
   { path: 'productsBySearch/:searchKey', component: ProductsBySearchComponent },
   { path: 'howitworks', component: HowItWorksComponent },
   { path: 'cart', component: CartComponent },
+  { path: 'refer', component: ReferComponent },
   {
     path: 'profile',
     component: ProfileComponent,

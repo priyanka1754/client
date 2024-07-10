@@ -18,6 +18,7 @@ export class SignupComponent {
   public pincode!: number;
   public password: string = '';
   public confirmPassword: string = '';
+  public referralCode = '';
 
   public passwordMatch = false;
 
@@ -26,6 +27,7 @@ export class SignupComponent {
   public isValidPassword = false;
   public isValidPhoneNumber = false;
   public isValidPincode = false;
+  public isValidName = false;
 
   public specialCharacters = '@#$&';
 
@@ -49,6 +51,10 @@ export class SignupComponent {
     this.isValidPincode = AppHelper.validatePincode(this.pincode);
   }
 
+  public validateName(name: string) {
+    this.isValidName = name.length >= 4 ? true : false;
+  }
+
   public signup() {
     const pincode = AppHelper.getFromLocalStorage('scPincode');
     const user = {
@@ -56,7 +62,8 @@ export class SignupComponent {
       Mobile: this.phone,
       Password: this.password,
       City: this.city,
-      Pincode: pincode
+      Pincode: pincode,
+      referralCodeForSignup: this.referralCode
     };
 
     this.userService.signup(user).subscribe(() => {
