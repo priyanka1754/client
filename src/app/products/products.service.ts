@@ -29,6 +29,12 @@ export class ProductsService {
     return this.http.get(url);
   }
 
+  public getProductsByMembershipType(membershipType: string): Observable<any> {
+    const storeId = AppHelper.getFromLocalStorage('scStore');
+    const url = `/api/products/byMembershipType/?membershipType=${membershipType}&store=${storeId}`;
+    return this.http.get(url);
+  }
+
   public getProductByCode(code: number): Observable<any> {
     const storeId = AppHelper.getFromLocalStorage('scStore');
     const url = `/api/products/get/${code}/store/${storeId}`;

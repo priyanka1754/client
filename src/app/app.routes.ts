@@ -16,6 +16,7 @@ import { WalletComponent } from './profile/wallet/wallet.component';
 import { ContactComponent } from './contact/contact.component';
 import { BlockToysComponent } from './profile/blocktoys/blocktoys.component';
 import { ReferComponent } from './refer/refer.component';
+import { ProductsByMembershipTypeComponent } from './products/productsByMembershipType/productsByMembershipType.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -27,6 +28,10 @@ export const routes: Routes = [
   {
     path: 'productsByCategory/:category',
     component: ProductsByCategoryComponent,
+  },
+  {
+    path: 'productsByMembershipType/:membershipType',
+    component: ProductsByMembershipTypeComponent,
   },
   { path: 'productsBySearch/:searchKey', component: ProductsBySearchComponent },
   { path: 'howitworks', component: HowItWorksComponent },
