@@ -48,7 +48,7 @@ export class HomeComponent implements AfterViewInit {
       const navigationEndEvent = event as NavigationEnd;
       console.log('NavigationEnd:', navigationEndEvent.urlAfterRedirects);
       const url = navigationEndEvent.urlAfterRedirects;
-      if (url === '/login' || url === '/signup' || url === '/refer') {
+      if (url === '/login' || url === '/signup' || url === '/refer' || url === '/giftCards' || url === '/giftcard_form') {
         this.isSimpleHeader = true;
       } else {
         this.isSimpleHeader = false;
