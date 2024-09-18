@@ -1,0 +1,154 @@
+<h1>GiftCards for special occasions</h1>
+<form>
+  <div class="flex flex-col gap-2">
+    <label for="sender" class="text-lg font-medium">Sender:</label>
+    <input
+      type="text"
+      id="sender"
+      [(ngModel)]="giftCard.sender"
+      name="sender"
+      required
+      pattern="[a-zA-Z ]*"
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="receiver" class="text-lg font-medium">Receiver:</label>
+    <input
+      type="text"
+      id="receiver"
+      [(ngModel)]="giftCard.receiver"
+      name="receiver"
+      required
+      pattern="[a-zA-Z ]*"
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="receiver_mail" class="text-lg font-medium">Receiver Email:</label>
+    <input
+      type="email"
+      id="receiver_mail"
+      [(ngModel)]="giftCard.receiver_mail"
+      name="receiver_mail"
+      required
+      pattern="[a-zA-Z0-9._%+-]+@gmail\.com"
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="receiver_mobile" class="text-lg font-medium">Receiver Mobile:</label>
+    <input
+      type="tel"
+      id="receiver_mobile"
+      [(ngModel)]="giftCard.receiver_mobile"
+      name="receiver_mobile"
+      required
+      pattern="[0-9]{10}"
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="message" class="text-lg font-medium">Message:</label>
+    <textarea
+      id="message"
+      [(ngModel)]="giftCard.message"
+      name="message"
+      required
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white resize-none"
+    ></textarea>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="amount" class="text-lg font-medium">Amount:</label>
+    <div class="flex gap-2">
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('250')"
+      >
+      
+        ₹ 250
+      </button>
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500  text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('500')"
+      >
+        ₹ 500
+      </button>
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500  text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('1000')"
+      >
+        ₹ 1000
+      </button>
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500  text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('2000')"
+      >
+        ₹ 2000
+      </button>
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('2500')"
+      >
+        ₹ 2500
+      </button>
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('5000')"
+      >
+        ₹ 5000
+      </button>
+      <button
+        type="button"
+        class="bg-gray-200 hover:bg-red-500 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        (click)="selectAmount('10000')"
+      >
+        ₹ 10000
+      </button>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="quantity" class="text-lg font-medium">Quantity:</label>
+    <input
+      type="number"
+      id="quantity"
+      [(ngModel)]="giftCard.quantity"
+      name="quantity"
+      required
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+    />
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="date" class="text-lg font-medium">Date:</label>
+    <input
+      type="date"
+      id="date"
+      [(ngModel)]="giftCard.date"
+      name="date"
+      required
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+    />
+  </div>
+  <div class="flex flex-col gap-2">
+    <p class="text-lg font-medium">Amount Payable: {{giftCard.amount * giftCard.quantity }}</p>
+    <button
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded border p-2"
+    (click)="onSubmit()"
+  >
+    Make Payment
+  </button>
+  </div>
+</form>

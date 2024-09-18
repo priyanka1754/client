@@ -17,6 +17,8 @@ import { ContactComponent } from './contact/contact.component';
 import { BlockToysComponent } from './profile/blocktoys/blocktoys.component';
 import { ReferComponent } from './refer/refer.component';
 import { ProductsByMembershipTypeComponent } from './products/productsByMembershipType/productsByMembershipType.component';
+import { GiftCardComponent } from './giftCards/giftcard.component';
+import { GiftCardFormComponent } from './giftCards/giftcard_form/giftcard_form.component';
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -37,6 +39,8 @@ export const routes: Routes = [
   { path: 'howitworks', component: HowItWorksComponent },
   { path: 'cart', component: CartComponent },
   { path: 'refer', component: ReferComponent },
+  {path:'giftCards',component:GiftCardComponent},
+  {path:'giftcard_form',component:GiftCardFormComponent},
   {
     path: 'profile',
     component: ProfileComponent,
