@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="carousel">
+    <div class="carousel-item" *ngFor="let review of reviews; let i = index" [class.active]="activeIndex === i">
+      <img [src]="review.image" alt="Review Image">
+      <div class="review-content">
+        <div class="rating">
+          <span class="star" *ngFor="let star of [].constructor(review.rating)">&#9733;</span>
+        </div>
+        <p>{{ review.review }}</p>
+        <p class="author">- {{ review.name }}</p>
+      </div>
+    </div>
+  </div>
+  <button class="prev" (click)="previousReview()">&lt;</button>
+  <button class="next" (click)="nextReview()">&gt;</button>
+  <div class="dots">
+    <span *ngFor="let review of reviews; let i = index" [class.active]="activeIndex === i" (click)="goToReview(i)"></span>
+  </div>
+</div>

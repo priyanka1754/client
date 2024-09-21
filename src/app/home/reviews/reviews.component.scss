@@ -1,0 +1,128 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 400px; /* Adjusted to ensure minimum height */
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.carousel {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  min-height: 500px; /* Adjusted to ensure minimum height */
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.carousel-item {
+  width: 100%;
+  min-height: 100%; /* Adjusted to ensure minimum height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.carousel-item.active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.review-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+.rating {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.star {
+  font-size: 20px;
+  color: gold;
+}
+
+.author {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.prev:hover, .next:hover {
+  opacity: 1;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Added margin-top */
+}
+
+.dots span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dots span.active {
+  background-color: #333;
+}
+
+@media (max-width: 600px) {
+  .container {
+    min-height: auto; /* Adjusted for smaller screens */
+  }
+
+  .carousel {
+    min-height: 200px; /* Adjusted for smaller screens */
+  }
+
+  .prev, .next {
+    padding: 5px 10px;
+  }
+
+  .star {
+    font-size: 16px;
+  }
+}

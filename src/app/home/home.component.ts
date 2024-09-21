@@ -23,8 +23,6 @@ import { filter } from 'rxjs';
     HeaderComponent,
     RouterModule,
     SecondaryHeaderComponent,
-    FooterComponent,
-  ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements AfterViewInit {

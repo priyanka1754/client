@@ -5,12 +5,13 @@ import { NewArrivalComponent } from "../new-arrival/newArrival.component";
 import { CategorySectionComponent } from "../category-section/categorySection.component";
 import { CarouselModule } from "primeng/carousel";
 import { MembershipTypeSectionComponent } from "../membership-type-section/membership-type-section.component";
+import { ReviewsComponent } from "../reviews/reviews.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: 'dashboard.component.html',
-  imports: [AgeSectionComponent, BestRentedComponent, NewArrivalComponent, CategorySectionComponent, CarouselModule, MembershipTypeSectionComponent],
+  imports: [AgeSectionComponent, BestRentedComponent, NewArrivalComponent, CategorySectionComponent, CarouselModule, MembershipTypeSectionComponent, ReviewsComponent],
   styles: `
     .cc {
       color: 'white'
