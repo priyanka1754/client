@@ -32,8 +32,8 @@ export class LoginComponent {
   }
 
   public login() {
-    this.mobile = 7299933974;
-    this.password = 'Sri@276286';
+    // this.mobile = 7299933974;
+    // this.password = 'Sri@276286';
     const user = {
       username: this.mobile,
       password: this.password,
